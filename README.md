@@ -1,71 +1,59 @@
-<div align="center">
-
 # Aniruth Karthik
 
-Build it. Ship it. Fix it in production.
-
-</div>
+Building AI infrastructure, distributed systems, and Linux-native developer tools.
 
 ---
 
-## Projects
+## Selected Projects
 
-| Repo | What it does | Stack |
-|------|-------------|-------|
-| [**llm-orchestrator**](https://github.com/AniruthKarthik/llm-orchestrator) | Plug in any AI APIs and wire autonomous workflows between them | Go |
-| [**stocksim**](https://github.com/AniruthKarthik/stocksim) | High-fidelity investment simulator — rewind real market history, test strategies, zero risk | Python |
-| [**qrtunnel**](https://github.com/AniruthKarthik/qrtunnel) | Instant file sharing via QR code with smart LAN + tunnel routing, no logins | Python |
-| [**vfi**](https://github.com/AniruthKarthik/vfi) | Motion estimation and frame interpolation suite | C / Makefile |
-| [**stt**](https://github.com/AniruthKarthik/stt) | Offline speech-to-text — built it because nothing else worked | Shell |
-| [**nets**](https://github.com/AniruthKarthik/nets) | Hybrid puzzle game — JavaFX GUI over a high-performance C++ compute engine | C++ / Java |
+| Project              | Description                                                                                                                                                     |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **llm-orchestrator** | Multi-provider LLM orchestration engine for autonomous workflows, model routing, memory management, and agent execution.                                        |
+| **stocksim**         | High-fidelity investment simulator that replays historical markets, enables portfolio experimentation, and supports strategy evaluation without financial risk. |
+| **qrtunnel**         | QR-based file sharing platform with smart LAN discovery, tunnel routing, and zero-login transfers.                                                              |
+| **gramfix**          | Linux-wide grammar correction utility powered by cloud LLMs with automatic offline fallback support.                                                            |
+| **stt**              | Offline speech-to-text system built on whisper.cpp with low-latency transcription and direct text injection into any Linux application.                         |
+| **vfi**              | Video frame interpolation system that generates intermediate frames to create smoother motion and higher frame-rate video playback.                             |
 
 ---
 
 ## Open Source Contributions
 
-> Auto-updated weekly via GitHub Actions — lists every external repo with a merged PR.
-
-<!-- CONTRIBUTIONS:START -->
-<!-- CONTRIBUTIONS:END -->
-
----
-
-## Tech Stack
-
-<div align="left">
-  <img src="https://skillicons.dev/icons?i=java" title="Java"/>
-  <img src="https://skillicons.dev/icons?i=py" title="Python"/>
-  <img src="https://skillicons.dev/icons?i=js" title="JavaScript"/>
-  <img src="https://skillicons.dev/icons?i=ts" title="TypeScript"/>
-  <img src="https://skillicons.dev/icons?i=go" title="Go"/>
-  <img src="https://skillicons.dev/icons?i=c" title="C"/>
-  <img src="https://skillicons.dev/icons?i=cpp" title="C++"/>
-  <img src="https://skillicons.dev/icons?i=kotlin" title="Kotlin"/>
-  <img src="https://skillicons.dev/icons?i=flutter" title="Flutter"/>
-  <img src="https://skillicons.dev/icons?i=dart" title="Dart"/>
-  <img src="https://skillicons.dev/icons?i=flask" title="Flask"/>
-  <img src="https://skillicons.dev/icons?i=fastapi" title="FastAPI"/>
-  <img src="https://skillicons.dev/icons?i=nodejs" title="Node.js"/>
-  <img src="https://skillicons.dev/icons?i=react" title="React.js"/>
-  <img src="https://skillicons.dev/icons?i=express" title="Express.js"/>
-  <img src="https://skillicons.dev/icons?i=nextjs" title="Next.js"/>
-  <img src="https://skillicons.dev/icons?i=electron" title="Electron"/>
-  <img src="https://skillicons.dev/icons?i=vue" title="Vue.js"/>
-  <img src="https://skillicons.dev/icons?i=threejs" title="Three.js"/>
-  <img src="https://skillicons.dev/icons?i=tailwind" title="TailwindCSS"/>
-  <img src="https://skillicons.dev/icons?i=bootstrap" title="Bootstrap"/>
-  <img src="https://skillicons.dev/icons?i=html" title="HTML5"/>
-  <img src="https://skillicons.dev/icons?i=css" title="CSS3"/>
-  <img src="https://skillicons.dev/icons?i=haskell" title="Haskell"/>
-  <img src="https://skillicons.dev/icons?i=md" title="Markdown"/>
-</div>
+| Repository                                                                      | About                                                                                                                                                                  |
+| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [**openml/openml-python**](https://github.com/openml/openml-python)             | Official Python SDK for OpenML, a platform for sharing datasets, experiments, and machine learning benchmarks.                                                         |
+| [**IDEA-Amrita/NodeShare**](https://github.com/IDEA-Amrita/NodeShare)           | Cross-platform peer-to-peer distributed computing daemon that enables remote workload execution using shared CPU, memory, and compute resources across multiple nodes. |
+| [**cin-and-cout/png-tree**](https://github.com/cin-and-cout/png-tree)           | Performance-focused C++ case study comparing vector-based image storage against a quadtree segment tree with lazy propagation for large-scale image manipulation.      |
+| [**arhamgarg/DSA**](https://github.com/arhamgarg/DSA)                           | Comprehensive collection of data structures and algorithms implementations for learning, interviews, and competitive programming.                                      |
+| [**SH-Nihil-Mukkesh-25/Stemly**](https://github.com/SH-Nihil-Mukkesh-25/Stemly) | Student-centric academic platform for project management, collaboration, and educational workflow organization.                                                        |
+| [**cin-and-cout/Eco-Route Optimizer**](https://github.com/cin-and-cout/eco-route-optmizer)           | Intelligent route optimization and simulation platform that minimizes carbon emissions using elevation, weather, traffic, and autonomous re-routing analysis.          |
 
 ---
 
-<div align="center">
-  <sub>
-    <a href="https://github.com/AniruthKarthik?tab=repositories">repositories</a>
-    &nbsp;&middot;&nbsp;
-    <a href="https://github.com/AniruthKarthik?tab=stars">stars</a>
-  </sub>
-</div>
+## Technology Stack
+
+---
+
+## Technologies
+
+### Artificial Intelligence
+
+`LLM Orchestration` • `RAG` • `Vector Search` • `FAISS` • `Sentence Transformers` • `NLP` • `Research Analytics` • `Computer Vision`
+
+### Backend & Infrastructure
+
+`FastAPI` • `PostgreSQL` • `Redis` • `REST APIs` • `WebSockets` • `Distributed Systems`
+
+### Systems Programming
+
+`Linux` • `Networking` • `System Automation` • `Process Management` • `Performance Optimization` • `Developer Tooling`
+
+### Tools
+
+`Neovim` • `Docker` • `Git` • `GitHub Actions` • `Cisco Packet Tracer` • `Obsidian`
+
+---
+
+### AI Systems • Backend Engineering • Systems Programming
+
+---
