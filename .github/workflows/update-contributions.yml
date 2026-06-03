@@ -1,0 +1,79 @@
+name: Update Contributions
+
+on:
+  schedule:
+    - cron: "0 0 * * 1"   # every Monday at midnight UTC
+  workflow_dispatch:        # manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch merged PRs to external repos
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Query GitHub Search API for merged PRs by this user, excluding own repos
+          RESPONSE=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/search/issues?q=type:pr+author:AniruthKarthik+is:merged+-user:AniruthKarthik&per_page=100")
+
+          # Extract unique repo full_names from the results
+          REPOS=$(echo "$RESPONSE" | python3 -c "
+          import sys, json
+          data = json.load(sys.stdin)
+          items = data.get('items', [])
+          seen = {}
+          rows = []
+          for item in items:
+              repo = item['repository_url'].replace('https://api.github.com/repos/', '')
+              if repo not in seen:
+                  seen[repo] = True
+                  title = item.get('title', '')
+                  url = 'https://github.com/' + repo
+                  rows.append(f'| [{repo}]({url}) | {title} |')
+          if rows:
+              print('| Repository | PR |')
+              print('|------------|-----|')
+              print('\n'.join(rows))
+          else:
+              print('_No external merged PRs found yet._')
+          ")
+
+          # Escape for multiline env var
+          echo "TABLE<<EOF" >> $GITHUB_ENV
+          echo "$REPOS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Inject table into README
+        run: |
+          python3 - << 'PYEOF'
+          import re, os
+
+          table = os.environ['TABLE']
+          with open('README.md', 'r') as f:
+              content = f.read()
+
+          block = f"<!-- CONTRIBUTIONS:START -->\n{table}\n<!-- CONTRIBUTIONS:END -->"
+          content = re.sub(
+              r'<!-- CONTRIBUTIONS:START -->.*?<!-- CONTRIBUTIONS:END -->',
+              block,
+              content,
+              flags=re.DOTALL
+          )
+
+          with open('README.md', 'w') as f:
+              f.write(content)
+          PYEOF
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet && echo "No changes" || (git add README.md && git commit -m "chore: update contributions list" && git push)
