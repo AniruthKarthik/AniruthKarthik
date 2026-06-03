@@ -32,7 +32,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 
 ## Technology Stack
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=go,py,c,cpp,java,ts,js,fastapi,react,nextjs,tailwind,postgres,redis,docker,linux,git,githubactions,neovim,vscode" />
+  <img src="https://skillicons.dev/icons?i=go,py,c,cpp,java,ts,js,fastapi,react,nextjs,tailwind,postgres,redis,docker,linux,git,githubactions,neovim,obsidian" />
 
 ---
 
