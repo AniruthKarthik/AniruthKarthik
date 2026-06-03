@@ -26,11 +26,13 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | [**cin-and-cout/png-tree**](https://github.com/cin-and-cout/png-tree)           | Performance-focused C++ case study comparing vector-based image storage against a quadtree segment tree with lazy propagation for large-scale image manipulation.      |
 | [**arhamgarg/DSA**](https://github.com/arhamgarg/DSA)                           | Comprehensive collection of data structures and algorithms implementations for learning, interviews, and competitive programming.                                      |
 | [**SH-Nihil-Mukkesh-25/Stemly**](https://github.com/SH-Nihil-Mukkesh-25/Stemly) | Student-centric academic platform for project management, collaboration, and educational workflow organization.                                                        |
-| [**cin-and-cout/Eco-Route Optimizer**](https://github.com/cin-and-cout/eco-route-optmizer)           | Intelligent route optimization and simulation platform that minimizes carbon emissions using elevation, weather, traffic, and autonomous re-routing analysis.          |
+| [**cin-and-cout/Eco-Route Optimizer**](https://github.com/cin-and-cout/eco-route-optimizer)           | Intelligent route optimization and simulation platform that minimizes carbon emissions using elevation, weather, traffic, and autonomous re-routing analysis.          |
 
 ---
 
 ## Technology Stack
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=go,py,c,cpp,java,ts,js,fastapi,react,nextjs,tailwind,postgres,redis,docker,linux,git,githubactions,neovim,vscode" />
 
 ---
 
