@@ -9,7 +9,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | Project              | Description                                                                                                                                                     |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **llm-orchestrator** | Multi-provider LLM orchestration engine for autonomous workflows, model routing, memory management, and agent execution.                                        |
-| **codemap**          | Interactive codebase visualization tool designed to help developers understand complex logic by mapping out the most relevant files and execution paths.        |
+| **codemap**          | Understand a codebase faster by reading the right files in the right order—and only the code that matters.|
 | **stocksim**         | High-fidelity investment simulator that replays historical markets, enables portfolio experimentation, and supports strategy evaluation without financial risk. |
 | **qrtunnel**         | QR-based file sharing platform with smart LAN discovery, tunnel routing, and zero-login transfers.                                                              |
 | **nets**             | High-performance puzzle engine with a C++17 computational core and JavaFX frontend, featuring an AI visualizer for real-time search algorithm tracing.          |
