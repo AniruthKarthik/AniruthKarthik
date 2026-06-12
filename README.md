@@ -22,8 +22,8 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 ## Open Source / Other Contributions
 
 <!-- CONTRIBUTIONS:START -->
-| Repository                                                                      | About                                                                                                                                                                  |
-| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Repository | About |
+| --- | --- |
 | [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql)                 | Contributed to the internals of a version-controlled PostgreSQL database, focusing on type systems, PL/pgSQL compatibility, and core engine functionality.              |
 | [**purpleidea/mgmt**](https://github.com/purpleidea/mgmt)                       | Contributed to the next-generation distributed configuration management engine, focusing on test automation for dependency update verification.                          |
 | [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce)                     | No-code Model Context Protocol (MCP) gateway that automatically transforms OpenAPI and Swagger endpoints into MCP servers with built-in OAuth2 and real-time analytics. |
@@ -34,6 +34,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | [**cin-and-cout/Eco-Route Optimizer**](https://github.com/cin-and-cout/eco-route-optimizer) | Intelligent route optimization and simulation platform that minimizes carbon emissions using elevation, weather, traffic, and autonomous re-routing analysis.          |
 | [**SH-Nihil-Mukkesh-25/Stemly**](https://github.com/SH-Nihil-Mukkesh-25/Stemly) | Student-centric academic platform for project management, collaboration, and educational workflow organization.                                                        |
 | [**arhamgarg/DSA**](https://github.com/arhamgarg/DSA)                           | Comprehensive collection of data structures and algorithms implementations for learning, interviews, and competitive programming.                                      |
+| [**firstcontributions/first-contributions**](https://github.com/firstcontributions/first-contributions) | aniruth first contribution |
 <!-- CONTRIBUTIONS:END -->
 
 ---
