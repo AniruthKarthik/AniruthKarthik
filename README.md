@@ -35,6 +35,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | [**SH-Nihil-Mukkesh-25/Stemly**](https://github.com/SH-Nihil-Mukkesh-25/Stemly) | Student-centric academic platform for project management, collaboration, and educational workflow organization.                                                        |
 | [**arhamgarg/DSA**](https://github.com/arhamgarg/DSA)                           | Comprehensive collection of data structures and algorithms implementations for learning, interviews, and competitive programming.                                      |
 | [**firstcontributions/first-contributions**](https://github.com/firstcontributions/first-contributions) | aniruth first contribution |
+| [**gomods/athens**](https://github.com/gomods/athens) | fix: add DB parameter to Redis Sentinel SingleFlight configuration (#2107) |
 <!-- CONTRIBUTIONS:END -->
 
 ---
