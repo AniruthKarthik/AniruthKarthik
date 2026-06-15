@@ -11,9 +11,9 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | --- | --- |
 | [**llm-orchestrator**](https://github.com/AniruthKarthik/llm-orchestrator) | Plug in as many Al APIs as you want and create autonomous workflows. |
 | [**codemap**](https://github.com/AniruthKarthik/codemap) | Codemap - Understand a codebase faster by reading the right files in the right order—and only the code that matters. |
-| [**stocksim**](https://github.com/AniruthKarthik/stocksim) | A high-fidelity investment simulator that lets you rewind markets, test strategies, and learn investing using real historical data — no real money, no risk |
-| [**paper-no-yapper**](https://github.com/AniruthKarthik/paper-no-yapper) | Academic paper analyzer... No more yapping with papers |
-| [**qrtunnel**](https://github.com/AniruthKarthik/qrtunnel) | qrtunnel — share or receive files instantly via QR code with smart LAN + tunnel routing, zero logins, and simple security |
+| [**nets**](https://github.com/AniruthKarthik/nets) | NETS is a hybrid puzzle game that combines a JavaFX GUI with a high-performance C++ Computational Engine. The goal is to rotate network tiles to connect all clients (PCs) to a central server (Power Source) without leaving loose ends or creating closed loops. |
+| [**vfi**](https://github.com/AniruthKarthik/vfi) | Motion estimation and frame interpolation suite. |
+| [**stt**](https://github.com/AniruthKarthik/stt) | No offline STT solution available online worked properly on my PC, so I built my own.  |
 
 [**View full list (17)**](PROJECTS.md#all-personal-projects)
 <!-- SELECTED:END -->

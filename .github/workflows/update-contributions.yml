@@ -19,11 +19,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 - << 'PYEOF'
-          import os, re, json, urllib.request
+          import os, re, json, urllib.request, time
 
           def fetch_github(url, token):
               req = urllib.request.Request(url)
-              req.add_header('Authorization', f'Bearer {token}')
+              if token:
+                  req.add_header('Authorization', f'Bearer {token}')
               req.add_header('Accept', 'application/vnd.github+json')
               try:
                   with urllib.request.urlopen(req) as response:
@@ -70,17 +71,17 @@ jobs:
                   # Own Projects
                   'llm-orchestrator': 100,
                   'codemap': 95,
-                  'stocksim': 90,
-                  'paper-no-yapper': 88,
-                  'qrtunnel': 85,
-                  'hyperparameter-analyzer': 82,
-                  'nets': 80,
-                  'gramfix': 75,
-                  'Campus_Navigation_System': 72,
-                  'stt': 70,
-                  'vfi': 65,
-                  'esphost': 55,
-                  'No_Time_To_Die': 50,
+                  'nets': 90,
+                  'vfi': 88,
+                  'stt': 85,
+                  'stocksim': 80,
+                  'qrtunnel': 75,
+                  'hyperparameter-analyzer': 70,
+                  'gramfix': 65,
+                  'Campus_Navigation_System': 60,
+                  'paper-no-yapper': 50,
+                  'No_Time_To_Die': 45,
+                  'esphost': 40,
                   'blogs': 30,
                   'nvim-config': 25,
                   'project-sandbox': 10,
@@ -94,7 +95,7 @@ jobs:
                   'cin-and-cout/png-tree': 75,
                   'openml/openml-python': 70,
                   'collective/icalendar': 65,
-                  'cin-and-cout/Eco-Route Optimizer': 60,
+                  'cin-and-cout/eco-route-optimizer': 60,
                   'SH-Nihil-Mukkesh-25/Stemly': 50,
                   'arhamgarg/DSA': 40
               }
@@ -129,16 +130,45 @@ jobs:
 
               # 2. Fetch ALL External OS Contributions
               prs_data = fetch_github(f"https://api.github.com/search/issues?q=type:pr+author:{user}+is:merged+-user:{user}+-repo:firstcontributions/first-contributions&per_page=100", token)
+              commits_data = fetch_github(f"https://api.github.com/search/commits?q=author:{user}+is:public+-user:{user}+sort:author-date-desc&per_page=100", token)
+              
               contrib_projects = {}
               contrib_metadata = {}
+              repo_names = set()
+              
               if prs_data and 'items' in prs_data:
+                  # Collect unique repo names from PRs
                   for item in prs_data['items']:
                       repo_url = item['repository_url']
                       repo_name = "/".join(repo_url.split('/')[-2:])
-                      if repo_name not in contrib_projects:
-                          link = f"https://github.com/{repo_name}"
-                          contrib_projects[repo_name] = f"| [**{repo_name}**]({link}) | {item['title']} |"
-                          contrib_metadata[repo_name] = {'description': item['title'], 'language': ''}
+                      repo_names.add(repo_name)
+                      
+              if commits_data and 'items' in commits_data:
+                  for item in commits_data['items']:
+                      repo_name = item['repository']['full_name']
+                      if 'first-contribution' in repo_name.lower():
+                          continue
+                      repo_names.add(repo_name)
+                      
+              # Ensure all external repos from COMPLEXITY_MAP are included
+              for mapped_repo in COMPLEXITY_MAP.keys():
+                  if '/' in mapped_repo and not mapped_repo.startswith(user + '/'):
+                      repo_names.add(mapped_repo)
+                  
+              # Fetch full repo metadata for each repo to get the description
+              for repo_name in repo_names:
+                  repo_info = fetch_github(f"https://api.github.com/repos/{repo_name}", token)
+                  if repo_info:
+                      desc = repo_info.get('description') or "No description provided."
+                      link = repo_info.get('html_url')
+                      contrib_projects[repo_name] = f"| [**{repo_name}**]({link}) | {desc} |"
+                      contrib_metadata[repo_name] = {'description': desc, 'language': repo_info.get('language', '')}
+                  else:
+                      desc = "No description provided."
+                      link = f"https://github.com/{repo_name}"
+                      contrib_projects[repo_name] = f"| [**{repo_name}**]({link}) | {desc} |"
+                      contrib_metadata[repo_name] = {'description': desc, 'language': ''}
+                  time.sleep(0.1) # Respect rate limits
 
               # 3. Sort lists
               sorted_own = sorted(own_projects.keys(), key=lambda n: sort_key(n, own_metadata.get(n)))
@@ -192,4 +222,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md PROJECTS.md
-          git diff --quiet --staged && echo "No changes" || (git commit -m "chore: update workflow triggers and enhance complexity-based ranking" && git push)
+          git diff --quiet --staged && echo "No changes" || (git commit -m "chore: use repo descriptions for open source contributions" && git push)
