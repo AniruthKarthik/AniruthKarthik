@@ -26,10 +26,14 @@
 
 | Repository | Description |
 | --- | --- |
-| [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | Format missing operator error correctly (fixes #2160) |
-| [**gomods/athens**](https://github.com/gomods/athens) | fix: add DB parameter to Redis Sentinel SingleFlight configuration (#2107) |
-| [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | Enforce minimum length for JWT secrets to improve security (#10) |
-| [**openml/openml-python**](https://github.com/openml/openml-python) | [MNT] register pytest marker `test_server` and change `production` to `production_server` |
-| [**collective/icalendar**](https://github.com/collective/icalendar) | chore: automate AI prompt recording in commits (#1320) |
+| [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | DoltgreSQL - Version Controlled PostgreSQL |
+| [**purpleidea/mgmt**](https://github.com/purpleidea/mgmt) | Next generation distributed, event-driven, parallel config management! |
+| [**gomods/athens**](https://github.com/gomods/athens) | A Go module datastore and proxy |
+| [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | HasMCP Community Edition |
+| [**IDEA-Amrita/NodeShare**](https://github.com/IDEA-Amrita/NodeShare) | Cross-platform peer-to-peer distributed computing daemon for remote workload execution using shared CPU and memory. |
+| [**cin-and-cout/png-tree**](https://github.com/cin-and-cout/png-tree) | High-Performance 2D Image Manipulation in C++ |
+| [**openml/openml-python**](https://github.com/openml/openml-python) | OpenML's Python API for a World of Data and More 💫 |
+| [**collective/icalendar**](https://github.com/collective/icalendar) | icalendar parser library for Python |
+| [**cin-and-cout/eco-route-optimizer**](https://github.com/cin-and-cout/eco-route-optimizer) | Intelligent route optimization and simulation platform that minimizes carbon emissions |
 | [**SH-Nihil-Mukkesh-25/Stemly**](https://github.com/SH-Nihil-Mukkesh-25/Stemly) | chore: remove test artifacts and cleanup .gitignore |
 | [**arhamgarg/DSA**](https://github.com/arhamgarg/DSA) | Add Strassen's Matrix Multiplication algorithm |

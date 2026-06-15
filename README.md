@@ -25,13 +25,13 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 <!-- CONTRIBUTIONS:START -->
 | Repository | Description |
 | --- | --- |
-| [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | Format missing operator error correctly (fixes #2160) |
-| [**gomods/athens**](https://github.com/gomods/athens) | fix: add DB parameter to Redis Sentinel SingleFlight configuration (#2107) |
-| [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | Enforce minimum length for JWT secrets to improve security (#10) |
-| [**openml/openml-python**](https://github.com/openml/openml-python) | [MNT] register pytest marker `test_server` and change `production` to `production_server` |
-| [**collective/icalendar**](https://github.com/collective/icalendar) | chore: automate AI prompt recording in commits (#1320) |
+| [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | DoltgreSQL - Version Controlled PostgreSQL |
+| [**purpleidea/mgmt**](https://github.com/purpleidea/mgmt) | Next generation distributed, event-driven, parallel config management! |
+| [**gomods/athens**](https://github.com/gomods/athens) | A Go module datastore and proxy |
+| [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | HasMCP Community Edition |
+| [**IDEA-Amrita/NodeShare**](https://github.com/IDEA-Amrita/NodeShare) | Cross-platform peer-to-peer distributed computing daemon for remote workload execution using shared CPU and memory. |
 
-[**View full list (7)**](PROJECTS.md#all-open-source--other-contributions)
+[**View full list (11)**](PROJECTS.md#all-open-source--other-contributions)
 <!-- CONTRIBUTIONS:END -->
 
 ---
