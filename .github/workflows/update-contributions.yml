@@ -100,6 +100,37 @@ jobs:
                   'arhamgarg/DSA': 40
               }
 
+              DESCRIPTION_MAP = {
+                  'llm-orchestrator': 'Production-grade execution engine for transforming declarative workflows into robust, dynamically executed DAGs for AI agents.',
+                  'codemap': 'Codebase onboarding and visualization system designed to surface architectural context by analyzing execution paths and file relationships.',
+                  'nets': 'Hybrid puzzle architecture integrating a JavaFX frontend with a high-performance C++ backend to implement graph theory and minimum spanning tree mechanics.',
+                  'vfi': 'High-performance motion estimation and frame interpolation suite leveraging a multi-scale pyramid estimator optimized for low-latency streaming.',
+                  'stt': 'Lightweight, secure, cursor-aware offline speech-to-text integration utilizing whisper.cpp for seamless desktop audio-to-text injection.',
+                  'stocksim': 'Full-stack time-travel trading simulator enabling the realistic backtesting of financial strategies using historical market data.',
+                  'qrtunnel': 'Cross-platform reverse-tunneling utility enabling instantaneous file transfers via QR codes over NAT-traversed connections and local LAN.',
+                  'hyperparameter-analyzer': 'Command-line interface utility for evaluating and optimizing machine learning model hyperparameters in image segmentation tasks.',
+                  'gramfix': 'System-wide grammar correction utility utilizing a hybrid architecture of ultra-fast cloud-based LLM APIs and offline LanguageTool fallbacks.',
+                  'Campus_Navigation_System': 'Pathfinding visualizer utilizing Dijkstra\\'s Algorithm within a Tkinter interface for efficient route calculation across customizable map layouts.',
+                  'paper-no-yapper': 'Automated research paper analysis system employing ontology-based term matching and fuzzy detection to extract core domains and methodologies.',
+                  'No_Time_To_Die': 'C++ survival game built on Raylib featuring dynamic time mechanics where movement natively accelerates the game loop.',
+                  'esphost': 'Experimental IoT framework focused on ESP8266 and ESP32 hosting communication protocols.',
+                  'blogs': 'Hugo-based digital garden housing technical write-ups and architectural deep dives.',
+                  'nvim-config': 'Personalized Neovim environment heavily optimized via NvChad for enhanced developer ergonomics.',
+                  'project-sandbox': 'A dedicated repository serving as an archive for technical explorations, discontinued prototypes, and specific architectural experiments.',
+                  'proof-i-code': 'Automated activity tracker designed to maintain continuous integration logs and developer proof-of-work.',
+                  'dolthub/doltgresql': 'Version-controlled SQL database introducing Git-like branching, merging, and cloning capabilities directly into the PostgreSQL ecosystem.',
+                  'purpleidea/mgmt': 'Next-generation distributed configuration management engine built on a real-time, event-driven, parallel execution architecture.',
+                  'gomods/athens': 'Highly available Go module proxy and datastore designed to provide immutable caching for external dependencies.',
+                  'hasmcp/hasmcp-ce': 'No-code Model Context Protocol (MCP) gateway engine that automates the transformation of standard OpenAPI endpoints into functional MCP servers.',
+                  'IDEA-Amrita/NodeShare': 'Cross-platform peer-to-peer distributed computing daemon architected for remote workload execution via shared CPU and memory.',
+                  'cin-and-cout/png-tree': 'C++ performance case study evaluating vector-based pixel storage against advanced quadtree SegmentTree implementations with lazy propagation.',
+                  'openml/openml-python': 'Official Python SDK for the OpenML platform, enabling standardized interaction with machine learning datasets and benchmark environments.',
+                  'collective/icalendar': 'Robust Python parsing and generation library for RFC 5545 compliant iCalendar specifications.',
+                  'cin-and-cout/eco-route-optimizer': 'Intelligent routing platform that calculates navigation paths by analyzing elevation gradients and traffic to minimize carbon emissions.',
+                  'SH-Nihil-Mukkesh-25/Stemly': 'AI-powered STEM platform utilizing FastAPI and LangChain to transform static diagrams into interactive simulations.',
+                  'arhamgarg/DSA': 'Comprehensive suite of object-oriented data structures and algorithmic implementations serving as a foundational reference.'
+              }
+
               def sort_key(name, item_data=None):
                   if name in COMPLEXITY_MAP:
                       score = COMPLEXITY_MAP[name]
@@ -123,7 +154,7 @@ jobs:
                       if repo['fork'] or repo['name'] == user:
                           continue
                       name = repo['name']
-                      desc = repo['description'] or "No description provided."
+                      desc = DESCRIPTION_MAP.get(name) or repo['description'] or "No description provided."
                       url = repo['html_url']
                       own_projects[name] = f"| [**{name}**]({url}) | {desc} |"
                       own_metadata[name] = {'description': desc, 'language': repo['language']}
@@ -159,12 +190,12 @@ jobs:
               for repo_name in repo_names:
                   repo_info = fetch_github(f"https://api.github.com/repos/{repo_name}", token)
                   if repo_info:
-                      desc = repo_info.get('description') or "No description provided."
+                      desc = DESCRIPTION_MAP.get(repo_name) or repo_info.get('description') or "No description provided."
                       link = repo_info.get('html_url')
                       contrib_projects[repo_name] = f"| [**{repo_name}**]({link}) | {desc} |"
                       contrib_metadata[repo_name] = {'description': desc, 'language': repo_info.get('language', '')}
                   else:
-                      desc = "No description provided."
+                      desc = DESCRIPTION_MAP.get(repo_name) or "No description provided."
                       link = f"https://github.com/{repo_name}"
                       contrib_projects[repo_name] = f"| [**{repo_name}**]({link}) | {desc} |"
                       contrib_metadata[repo_name] = {'description': desc, 'language': ''}

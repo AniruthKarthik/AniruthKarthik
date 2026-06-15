@@ -9,11 +9,11 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 <!-- SELECTED:START -->
 | Project | Description |
 | --- | --- |
-| [**llm-orchestrator**](https://github.com/AniruthKarthik/llm-orchestrator) | Plug in as many Al APIs as you want and create autonomous workflows. |
-| [**codemap**](https://github.com/AniruthKarthik/codemap) | Codemap - Understand a codebase faster by reading the right files in the right order—and only the code that matters. |
-| [**nets**](https://github.com/AniruthKarthik/nets) | NETS is a hybrid puzzle game that combines a JavaFX GUI with a high-performance C++ Computational Engine. The goal is to rotate network tiles to connect all clients (PCs) to a central server (Power Source) without leaving loose ends or creating closed loops. |
-| [**vfi**](https://github.com/AniruthKarthik/vfi) | Motion estimation and frame interpolation suite. |
-| [**stt**](https://github.com/AniruthKarthik/stt) | No offline STT solution available online worked properly on my PC, so I built my own.  |
+| [**llm-orchestrator**](https://github.com/AniruthKarthik/llm-orchestrator) | Production-grade execution engine for transforming declarative workflows into robust, dynamically executed DAGs for AI agents. |
+| [**codemap**](https://github.com/AniruthKarthik/codemap) | Codebase onboarding and visualization system designed to surface architectural context by analyzing execution paths and file relationships. |
+| [**nets**](https://github.com/AniruthKarthik/nets) | Hybrid puzzle architecture integrating a JavaFX frontend with a high-performance C++ backend to implement graph theory and minimum spanning tree mechanics. |
+| [**vfi**](https://github.com/AniruthKarthik/vfi) | High-performance motion estimation and frame interpolation suite leveraging a multi-scale pyramid estimator optimized for low-latency streaming. |
+| [**stt**](https://github.com/AniruthKarthik/stt) | Lightweight, secure, cursor-aware offline speech-to-text integration utilizing whisper.cpp for seamless desktop audio-to-text injection. |
 
 [**View full list (17)**](PROJECTS.md#all-personal-projects)
 <!-- SELECTED:END -->
@@ -25,11 +25,11 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 <!-- CONTRIBUTIONS:START -->
 | Repository | Description |
 | --- | --- |
-| [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | DoltgreSQL - Version Controlled PostgreSQL |
-| [**purpleidea/mgmt**](https://github.com/purpleidea/mgmt) | Next generation distributed, event-driven, parallel config management! |
-| [**gomods/athens**](https://github.com/gomods/athens) | A Go module datastore and proxy |
-| [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | HasMCP Community Edition |
-| [**IDEA-Amrita/NodeShare**](https://github.com/IDEA-Amrita/NodeShare) | Cross-platform peer-to-peer distributed computing daemon for remote workload execution using shared CPU and memory. |
+| [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | Version-controlled SQL database introducing Git-like branching, merging, and cloning capabilities directly into the PostgreSQL ecosystem. |
+| [**purpleidea/mgmt**](https://github.com/purpleidea/mgmt) | Next-generation distributed configuration management engine built on a real-time, event-driven, parallel execution architecture. |
+| [**gomods/athens**](https://github.com/gomods/athens) | Highly available Go module proxy and datastore designed to provide immutable caching for external dependencies. |
+| [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | No-code Model Context Protocol (MCP) gateway engine that automates the transformation of standard OpenAPI endpoints into functional MCP servers. |
+| [**IDEA-Amrita/NodeShare**](https://github.com/IDEA-Amrita/NodeShare) | Cross-platform peer-to-peer distributed computing daemon architected for remote workload execution via shared CPU and memory. |
 
 [**View full list (11)**](PROJECTS.md#all-open-source--other-contributions)
 <!-- CONTRIBUTIONS:END -->
