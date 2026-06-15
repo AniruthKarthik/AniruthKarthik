@@ -101,7 +101,7 @@ jobs:
               projects_content = f"# Full Project List\n\n"
               projects_content += "## All Personal Projects\n\n| Project | Description |\n| --- | --- |\n"
               projects_content += "\n".join(own_projects[name] for name in sorted_own) + "\n\n"
-              projects_content += "## All Open Source Contributions\n\n| Repository | About |\n| --- | --- |\n"
+              projects_content += "## All Open Source / Other Contributions\n\n| Repository | About |\n| --- | --- |\n"
               projects_content += "\n".join(contrib_projects[name] for name in sorted_contribs) + "\n"
               
               with open('PROJECTS.md', 'w') as f:
@@ -132,7 +132,7 @@ jobs:
                   readme_content, '<!-- CONTRIBUTIONS:START -->', '<!-- CONTRIBUTIONS:END -->',
                   contrib_projects, sorted_contribs, 
                   "| Repository | About |\n| --- | --- |", 
-                  "PROJECTS.md#all-open-source-contributions"
+                  "PROJECTS.md#all-open-source--other-contributions"
               )
 
               with open('README.md', 'w') as f:
