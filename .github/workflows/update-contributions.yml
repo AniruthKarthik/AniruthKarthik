@@ -24,7 +24,8 @@ jobs:
           import os, re, json, urllib.request
 
           def fetch_merged_prs(user, token):
-              url = f"https://api.github.com/search/issues?q=type:pr+author:{user}+is:merged+-user:{user}&per_page=100"
+              # Exclude specific tutorial repos in the query
+              url = f"https://api.github.com/search/issues?q=type:pr+author:{user}+is:merged+-user:{user}+-repo:firstcontributions/first-contributions&per_page=100"
               req = urllib.request.Request(url)
               req.add_header('Authorization', f'Bearer {token}')
               req.add_header('Accept', 'application/vnd.github+json')
@@ -42,12 +43,26 @@ jobs:
               if not os.path.exists('README.md'):
                   return
 
+              # Complexity mapping (higher = more complex/cool)
+              COMPLEXITY_MAP = {
+                  'dolthub/doltgresql': 100,
+                  'purpleidea/mgmt': 95,
+                  'gomods/athens': 90,
+                  'hasmcp/hasmcp-ce': 85,
+                  'IDEA-Amrita/NodeShare': 80,
+                  'cin-and-cout/png-tree': 75,
+                  'openml/openml-python': 70,
+                  'collective/icalendar': 65,
+                  'cin-and-cout/Eco-Route Optimizer': 60,
+                  'SH-Nihil-Mukkesh-25/Stemly': 50,
+                  'arhamgarg/DSA': 40
+              }
+
               with open('README.md', 'r') as f:
                   content = f.read()
               
-              # Extract existing table entries to preserve descriptions
-              existing = {}
-              # Match the table block between markers
+              # Extract existing table entries
+              entries = {}
               match = re.search(r'<!-- CONTRIBUTIONS:START -->\s*(.*?)\s*<!-- CONTRIBUTIONS:END -->', content, re.DOTALL)
               if match:
                   table_content = match.group(1)
@@ -55,31 +70,32 @@ jobs:
                   for row in rows:
                       if '|' not in row or '---' in row or 'Repository' in row:
                           continue
-                      # Extract repo name from [**repo**](url)
                       repo_match = re.search(r'\[\*\*(.*?)\*\*\]', row)
                       if repo_match:
                           repo_name = repo_match.group(1)
-                          existing[repo_name] = row.strip()
+                          # Explicitly exclude tutorial repos even if they exist in README
+                          if repo_name == "firstcontributions/first-contributions":
+                              continue
+                          entries[repo_name] = row.strip()
 
               # Fetch new ones from GitHub API
               prs = fetch_merged_prs(user, token)
-              seen = set(existing.keys())
-              new_rows = []
-              
               for pr in prs:
                   repo_url = pr['repository_url']
-                  # Extract owner/repo from URL
                   repo_name = "/".join(repo_url.split('/')[-2:])
-                  if repo_name not in seen:
+                  if repo_name not in entries:
                       link = f"https://github.com/{repo_name}"
-                      # Format matching the existing style
-                      new_rows.append(f"| [**{repo_name}**]({link}) | {pr['title']} |")
-                      seen.add(repo_name)
+                      entries[repo_name] = f"| [**{repo_name}**]({link}) | {pr['title']} |"
 
-              # Build the final table: existing entries first, then new ones
-              # This preserves manual descriptions and ordering for "suggested repos"
+              # Sort all entries by complexity score, then alphabetically
+              def sort_key(repo_name):
+                  score = COMPLEXITY_MAP.get(repo_name, 0)
+                  return (-score, repo_name.lower())
+
+              sorted_repo_names = sorted(entries.keys(), key=sort_key)
+              table_body = "\n".join(entries[name] for name in sorted_repo_names)
+              
               table_header = "| Repository | About |\n| --- | --- |"
-              table_body = "\n".join(list(existing.values()) + new_rows)
               table = f"{table_header}\n{table_body}"
               
               updated_block = f"<!-- CONTRIBUTIONS:START -->\n{table}\n<!-- CONTRIBUTIONS:END -->"

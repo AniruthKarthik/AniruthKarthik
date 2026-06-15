@@ -26,6 +26,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | --- | --- |
 | [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql)                 | Contributed to the internals of a version-controlled PostgreSQL database, focusing on type systems, PL/pgSQL compatibility, and core engine functionality.              |
 | [**purpleidea/mgmt**](https://github.com/purpleidea/mgmt)                       | Contributed to the next-generation distributed configuration management engine, focusing on test automation for dependency update verification.                          |
+| [**gomods/athens**](https://github.com/gomods/athens)                           | Contributed to the enterprise-grade Go module proxy, implementing storage backend configurations and enhancing dependency download protocols.                           |
 | [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce)                     | No-code Model Context Protocol (MCP) gateway that automatically transforms OpenAPI and Swagger endpoints into MCP servers with built-in OAuth2 and real-time analytics. |
 | [**IDEA-Amrita/NodeShare**](https://github.com/IDEA-Amrita/NodeShare)           | Cross-platform peer-to-peer distributed computing daemon that enables remote workload execution using shared CPU, memory, and compute resources across multiple nodes. |
 | [**cin-and-cout/png-tree**](https://github.com/cin-and-cout/png-tree)           | Performance-focused C++ case study comparing vector-based image storage against a quadtree segment tree with lazy propagation for large-scale image manipulation.      |
@@ -34,8 +35,6 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | [**cin-and-cout/Eco-Route Optimizer**](https://github.com/cin-and-cout/eco-route-optimizer) | Intelligent route optimization and simulation platform that minimizes carbon emissions using elevation, weather, traffic, and autonomous re-routing analysis.          |
 | [**SH-Nihil-Mukkesh-25/Stemly**](https://github.com/SH-Nihil-Mukkesh-25/Stemly) | Student-centric academic platform for project management, collaboration, and educational workflow organization.                                                        |
 | [**arhamgarg/DSA**](https://github.com/arhamgarg/DSA)                           | Comprehensive collection of data structures and algorithms implementations for learning, interviews, and competitive programming.                                      |
-| [**firstcontributions/first-contributions**](https://github.com/firstcontributions/first-contributions) | aniruth first contribution |
-| [**gomods/athens**](https://github.com/gomods/athens) | fix: add DB parameter to Redis Sentinel SingleFlight configuration (#2107) |
 <!-- CONTRIBUTIONS:END -->
 
 ---
