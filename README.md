@@ -8,14 +8,14 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 
 | Project              | Description                                                                                                                                                     |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **llm-orchestrator** | Multi-provider LLM orchestration engine for autonomous workflows, model routing, memory management, and agent execution.                                        |
-| **codemap**          | Understand a codebase faster by reading the right files in the right order—and only the code that matters.|
-| **stocksim**         | High-fidelity investment simulator that replays historical markets, enables portfolio experimentation, and supports strategy evaluation without financial risk. |
-| **qrtunnel**         | QR-based file sharing platform with smart LAN discovery, tunnel routing, and zero-login transfers.                                                              |
-| **nets**             | High-performance puzzle engine with a C++17 computational core and JavaFX frontend, featuring an AI visualizer for real-time search algorithm tracing.          |
-| **gramfix**          | Linux-wide grammar correction utility powered by cloud LLMs with automatic offline fallback support.                                                            |
-| **stt**              | Offline speech-to-text system built on whisper.cpp with low-latency transcription and direct text injection into any Linux application.                         |
-| **vfi**              | Video frame interpolation system that generates intermediate frames to create smoother motion and higher frame-rate video playback.                             |
+| [**llm-orchestrator**](https://github.com/AniruthKarthik/llm-orchestrator) | Multi-provider LLM orchestration engine for autonomous workflows, model routing, memory management, and agent execution.                                        |
+| [**codemap**](https://github.com/AniruthKarthik/codemap)          | Interactive codebase visualization tool designed to help developers understand complex logic by mapping out the most relevant files and execution paths.        |
+| [**stocksim**](https://github.com/AniruthKarthik/stocksim)         | High-fidelity investment simulator that replays historical markets, enables portfolio experimentation, and supports strategy evaluation without financial risk. |
+| [**qrtunnel**](https://github.com/AniruthKarthik/qrtunnel)         | QR-based file sharing platform with smart LAN discovery, tunnel routing, and zero-login transfers.                                                              |
+| [**nets**](https://github.com/AniruthKarthik/nets)             | High-performance puzzle engine with a C++17 computational core and JavaFX frontend, featuring an AI visualizer for real-time search algorithm tracing.          |
+| [**gramfix**](https://github.com/AniruthKarthik/gramfix)          | Linux-wide grammar correction utility powered by cloud LLMs with automatic offline fallback support.                                                            |
+| [**stt**](https://github.com/AniruthKarthik/stt)              | Offline speech-to-text system built on whisper.cpp with low-latency transcription and direct text injection into any Linux application.                         |
+| [**vfi**](https://github.com/AniruthKarthik/vfi)              | Video frame interpolation system that generates intermediate frames to create smoother motion and higher frame-rate video playback.                             |
 
 ---
 
