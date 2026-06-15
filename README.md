@@ -10,7 +10,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | Project | Description |
 | --- | --- |
 | [**llm-orchestrator**](https://github.com/AniruthKarthik/llm-orchestrator) | Production-grade execution engine for transforming declarative workflows into robust, dynamically executed DAGs for AI agents. |
-| [**codemap**](https://github.com/AniruthKarthik/codemap) | Codebase onboarding and visualization system designed to surface architectural context by analyzing execution paths and file relationships. |
+| [**codemap**](https://github.com/AniruthKarthik/codemap) |Understand a codebase faster by reading the right files in the right order—and only the code that matters.|
 | [**nets**](https://github.com/AniruthKarthik/nets) | Hybrid puzzle architecture integrating a JavaFX frontend with a high-performance C++ backend to implement graph theory and minimum spanning tree mechanics. |
 | [**vfi**](https://github.com/AniruthKarthik/vfi) | High-performance motion estimation and frame interpolation suite leveraging a multi-scale pyramid estimator optimized for low-latency streaming. |
 | [**stt**](https://github.com/AniruthKarthik/stt) | Lightweight, secure, cursor-aware offline speech-to-text integration utilizing whisper.cpp for seamless desktop audio-to-text injection. |
