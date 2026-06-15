@@ -23,7 +23,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 ## Selected Open Source / Other Contributions
 
 <!-- CONTRIBUTIONS:START -->
-| Repository | About |
+| Repository | Description |
 | --- | --- |
 | [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | Format missing operator error correctly (fixes #2160) |
 | [**gomods/athens**](https://github.com/gomods/athens) | fix: add DB parameter to Redis Sentinel SingleFlight configuration (#2107) |

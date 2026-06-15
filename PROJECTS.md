@@ -24,7 +24,7 @@
 
 ## All Open Source / Other Contributions
 
-| Repository | About |
+| Repository | Description |
 | --- | --- |
 | [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | Format missing operator error correctly (fixes #2160) |
 | [**gomods/athens**](https://github.com/gomods/athens) | fix: add DB parameter to Redis Sentinel SingleFlight configuration (#2107) |
