@@ -22,7 +22,7 @@
 | [**project-sandbox**](https://github.com/AniruthKarthik/project-sandbox) | No description provided. |
 | [**proof-i-code**](https://github.com/AniruthKarthik/proof-i-code) | Daily commits. Proof I code. |
 
-## All Open Source Contributions
+## All Open Source / Other Contributions
 
 | Repository | About |
 | --- | --- |

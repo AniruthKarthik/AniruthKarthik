@@ -31,7 +31,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | [**openml/openml-python**](https://github.com/openml/openml-python) | [MNT] register pytest marker `test_server` and change `production` to `production_server` |
 | [**collective/icalendar**](https://github.com/collective/icalendar) | chore: automate AI prompt recording in commits (#1320) |
 
-[**View full list (7)**](PROJECTS.md#all-open-source-contributions)
+[**View full list (7)**](PROJECTS.md#all-open-source--other-contributions)
 <!-- CONTRIBUTIONS:END -->
 
 ---
