@@ -3,9 +3,7 @@ name: Update Project Lists
 on:
   schedule:
     - cron: "0 0 * * 1"   # every Monday at midnight UTC
-  push:
-    branches: [ main ]
-  workflow_dispatch:        # manual trigger
+  workflow_dispatch:        # manual trigger (no push trigger)
 
 jobs:
   update:
@@ -34,6 +32,32 @@ jobs:
                   print(f"Error fetching {url}: {e}")
                   return None
 
+          def get_heuristic_score(name, description, language):
+              """Calculates a fallback complexity score for unknown repositories."""
+              score = 50 # Baseline
+              
+              # Technical keywords in name/desc (Systems/AI/Infra)
+              keywords = {
+                  'engine': 15, 'orchestrator': 15, 'simulator': 10, 'analyzer': 10,
+                  'compiler': 20, 'database': 20, 'distributed': 15, 'system': 10,
+                  'kernel': 20, 'protocol': 15, 'driver': 15, 'infrastructure': 10,
+                  'ai': 10, 'llm': 10, 'model': 5, 'vision': 5
+              }
+              
+              combined = f"{name} {description}".lower()
+              for kw, val in keywords.items():
+                  if kw in combined:
+                      score += val
+              
+              # Language-based complexity
+              lang_complexity = {
+                  'C++': 15, 'C': 15, 'Rust': 15, 'Go': 10,
+                  'Java': 5, 'Python': 5, 'TypeScript': 5
+              }
+              score += lang_complexity.get(language, 0)
+              
+              return min(max(score, 0), 99) # Keep below the manual high-prio stuff
+
           def update():
               user = "AniruthKarthik"
               token = os.environ.get('GH_TOKEN')
@@ -41,7 +65,7 @@ jobs:
               if not os.path.exists('README.md'):
                   return
 
-              # Complexity mapping
+              # Complexity mapping (Manual overrides)
               COMPLEXITY_MAP = {
                   # Own Projects
                   'llm-orchestrator': 100,
@@ -75,25 +99,38 @@ jobs:
                   'arhamgarg/DSA': 40
               }
 
-              def sort_key(name):
-                  score = COMPLEXITY_MAP.get(name, 0)
+              def sort_key(name, item_data=None):
+                  if name in COMPLEXITY_MAP:
+                      score = COMPLEXITY_MAP[name]
+                  elif item_data:
+                      # Heuristic for new/unknown repos
+                      score = get_heuristic_score(
+                          name, 
+                          item_data.get('description', ''), 
+                          item_data.get('language', '')
+                      )
+                  else:
+                      score = 0
                   return (-score, name.lower())
 
               # 1. Fetch ALL Own Repos (excluding forks)
               repos_data = fetch_github(f"https://api.github.com/users/{user}/repos?per_page=100&sort=updated", token)
               own_projects = {}
+              own_metadata = {}
               if repos_data:
                   for repo in repos_data:
-                      if repo['fork'] or repo['name'] == user: # Skip forks and profile README
+                      if repo['fork'] or repo['name'] == user:
                           continue
                       name = repo['name']
                       desc = repo['description'] or "No description provided."
                       url = repo['html_url']
                       own_projects[name] = f"| [**{name}**]({url}) | {desc} |"
+                      own_metadata[name] = {'description': desc, 'language': repo['language']}
 
               # 2. Fetch ALL External OS Contributions
               prs_data = fetch_github(f"https://api.github.com/search/issues?q=type:pr+author:{user}+is:merged+-user:{user}+-repo:firstcontributions/first-contributions&per_page=100", token)
               contrib_projects = {}
+              contrib_metadata = {}
               if prs_data and 'items' in prs_data:
                   for item in prs_data['items']:
                       repo_url = item['repository_url']
@@ -101,10 +138,11 @@ jobs:
                       if repo_name not in contrib_projects:
                           link = f"https://github.com/{repo_name}"
                           contrib_projects[repo_name] = f"| [**{repo_name}**]({link}) | {item['title']} |"
+                          contrib_metadata[repo_name] = {'description': item['title'], 'language': ''}
 
               # 3. Sort lists
-              sorted_own = sorted(own_projects.keys(), key=sort_key)
-              sorted_contribs = sorted(contrib_projects.keys(), key=sort_key)
+              sorted_own = sorted(own_projects.keys(), key=lambda n: sort_key(n, own_metadata.get(n)))
+              sorted_contribs = sorted(contrib_projects.keys(), key=lambda n: sort_key(n, contrib_metadata.get(n)))
 
               # 4. Generate PROJECTS.md
               projects_content = f"# Full Project List\n\n"
@@ -128,7 +166,6 @@ jobs:
                   new_block = f"{start_marker}\n{table}\n{end_marker}"
                   return re.sub(f'{start_marker}.*?{end_marker}', new_block, content, flags=re.DOTALL)
 
-              # Update Selected Projects
               readme_content = update_block(
                   readme_content, '<!-- SELECTED:START -->', '<!-- SELECTED:END -->',
                   own_projects, sorted_own, 
@@ -136,7 +173,6 @@ jobs:
                   "PROJECTS.md#all-personal-projects"
               )
 
-              # Update Contributions
               readme_content = update_block(
                   readme_content, '<!-- CONTRIBUTIONS:START -->', '<!-- CONTRIBUTIONS:END -->',
                   contrib_projects, sorted_contribs, 
@@ -156,4 +192,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md PROJECTS.md
-          git diff --quiet --staged && echo "No changes" || (git commit -m "chore: update full project lists and README top 5" && git push)
+          git diff --quiet --staged && echo "No changes" || (git commit -m "chore: update workflow triggers and enhance complexity-based ranking" && git push)
