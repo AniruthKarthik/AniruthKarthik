@@ -1,4 +1,4 @@
-name: Update Contributions
+name: Update Project Lists
 
 on:
   schedule:
@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Update contributions
+      - name: Update Projects and Contributions
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -24,7 +24,6 @@ jobs:
           import os, re, json, urllib.request
 
           def fetch_merged_prs(user, token):
-              # Exclude specific tutorial repos in the query
               url = f"https://api.github.com/search/issues?q=type:pr+author:{user}+is:merged+-user:{user}+-repo:firstcontributions/first-contributions&per_page=100"
               req = urllib.request.Request(url)
               req.add_header('Authorization', f'Bearer {token}')
@@ -36,6 +35,24 @@ jobs:
                   print(f"Error fetching PRs: {e}")
                   return []
 
+          def extract_entries(content, start_marker, end_marker):
+              entries = {}
+              match = re.search(f'{start_marker}\s*(.*?)\s*{end_marker}', content, re.DOTALL)
+              if match:
+                  table_content = match.group(1)
+                  rows = table_content.strip().split('\n')
+                  for row in rows:
+                      if '|' not in row or '---' in row or 'Project' in row or 'Repository' in row:
+                          continue
+                      # Extract name from [**name**](url) or **name**
+                      name_match = re.search(r'\[\*\*(.*?)\*\*\]|\*\*(.*?)\*\*', row)
+                      if name_match:
+                          name = name_match.group(1) or name_match.group(2)
+                          if name == "firstcontributions/first-contributions":
+                              continue
+                          entries[name] = row.strip()
+              return entries
+
           def update():
               user = "AniruthKarthik"
               token = os.environ.get('GH_TOKEN')
@@ -45,6 +62,7 @@ jobs:
 
               # Complexity mapping (higher = more complex/cool)
               COMPLEXITY_MAP = {
+                  # Contributions
                   'dolthub/doltgresql': 100,
                   'purpleidea/mgmt': 95,
                   'gomods/athens': 90,
@@ -55,59 +73,87 @@ jobs:
                   'collective/icalendar': 65,
                   'cin-and-cout/Eco-Route Optimizer': 60,
                   'SH-Nihil-Mukkesh-25/Stemly': 50,
-                  'arhamgarg/DSA': 40
+                  'arhamgarg/DSA': 40,
+                  # Selected Projects
+                  'llm-orchestrator': 100,
+                  'codemap': 95,
+                  'stocksim': 90,
+                  'qrtunnel': 85,
+                  'nets': 80,
+                  'gramfix': 75,
+                  'stt': 70,
+                  'vfi': 65
               }
+
+              def sort_key(name):
+                  score = COMPLEXITY_MAP.get(name, 0)
+                  return (-score, name.lower())
 
               with open('README.md', 'r') as f:
                   content = f.read()
               
-              # Extract existing table entries
-              entries = {}
-              match = re.search(r'<!-- CONTRIBUTIONS:START -->\s*(.*?)\s*<!-- CONTRIBUTIONS:END -->', content, re.DOTALL)
-              if match:
-                  table_content = match.group(1)
-                  rows = table_content.strip().split('\n')
-                  for row in rows:
-                      if '|' not in row or '---' in row or 'Repository' in row:
-                          continue
-                      repo_match = re.search(r'\[\*\*(.*?)\*\*\]', row)
-                      if repo_match:
-                          repo_name = repo_match.group(1)
-                          # Explicitly exclude tutorial repos even if they exist in README
-                          if repo_name == "firstcontributions/first-contributions":
-                              continue
-                          entries[repo_name] = row.strip()
-
-              # Fetch new ones from GitHub API
+              # 1. Handle Selected Projects
+              selected_entries = extract_entries(content, '<!-- SELECTED:START -->', '<!-- SELECTED:END -->')
+              sorted_selected = sorted(selected_entries.keys(), key=sort_key)
+              
+              # 2. Handle Contributions
+              contrib_entries = extract_entries(content, '<!-- CONTRIBUTIONS:START -->', '<!-- CONTRIBUTIONS:END -->')
+              
+              # Fetch new contributions
               prs = fetch_merged_prs(user, token)
               for pr in prs:
                   repo_url = pr['repository_url']
                   repo_name = "/".join(repo_url.split('/')[-2:])
-                  if repo_name not in entries:
+                  if repo_name not in contrib_entries:
                       link = f"https://github.com/{repo_name}"
-                      entries[repo_name] = f"| [**{repo_name}**]({link}) | {pr['title']} |"
-
-              # Sort all entries by complexity score, then alphabetically
-              def sort_key(repo_name):
-                  score = COMPLEXITY_MAP.get(repo_name, 0)
-                  return (-score, repo_name.lower())
-
-              sorted_repo_names = sorted(entries.keys(), key=sort_key)
-              table_body = "\n".join(entries[name] for name in sorted_repo_names)
+                      contrib_entries[repo_name] = f"| [**{repo_name}**]({link}) | {pr['title']} |"
               
-              table_header = "| Repository | About |\n| --- | --- |"
-              table = f"{table_header}\n{table_body}"
+              sorted_contribs = sorted(contrib_entries.keys(), key=sort_key)
+
+              # 3. Generate PROJECTS.md
+              projects_content = f"# Full Project List\n\n"
+              projects_content += "## Selected Projects\n\n| Project | Description |\n| --- | --- |\n"
+              projects_content += "\n".join(selected_entries[name] for name in sorted_selected) + "\n\n"
+              projects_content += "## Open Source / Other Contributions\n\n| Repository | About |\n| --- | --- |\n"
+              projects_content += "\n".join(contrib_entries[name] for name in sorted_contribs) + "\n"
               
-              updated_block = f"<!-- CONTRIBUTIONS:START -->\n{table}\n<!-- CONTRIBUTIONS:END -->"
-              updated_content = re.sub(
-                  r'<!-- CONTRIBUTIONS:START -->.*?<!-- CONTRIBUTIONS:END -->', 
-                  updated_block, 
-                  content, 
-                  flags=re.DOTALL
+              with open('PROJECTS.md', 'w') as f:
+                  f.write(projects_content)
+
+              # 4. Update README.md (Top 5 only)
+              def get_top_5_table(entries, sorted_names, header, footer_link):
+                  top_5 = sorted_names[:5]
+                  table = f"{header}\n"
+                  table += "\n".join(entries[name] for name in top_5)
+                  table += f"\n\n[**View full list ({len(sorted_names)})**]({footer_link})"
+                  return table
+
+              # Update Selected Projects block
+              selected_table = get_top_5_table(
+                  selected_entries, sorted_selected, 
+                  "| Project | Description |\n| --- | --- |", 
+                  "PROJECTS.md#selected-projects"
               )
-              
+              content = re.sub(
+                  r'<!-- SELECTED:START -->.*?<!-- SELECTED:END -->',
+                  f'<!-- SELECTED:START -->\n{selected_table}\n<!-- SELECTED:END -->',
+                  content, flags=re.DOTALL
+              )
+
+              # Update Contributions block
+              contrib_table = get_top_5_table(
+                  contrib_entries, sorted_contribs, 
+                  "| Repository | About |\n| --- | --- |", 
+                  "PROJECTS.md#open-source--other-contributions"
+              )
+              content = re.sub(
+                  r'<!-- CONTRIBUTIONS:START -->.*?<!-- CONTRIBUTIONS:END -->',
+                  f'<!-- CONTRIBUTIONS:START -->\n{contrib_table}\n<!-- CONTRIBUTIONS:END -->',
+                  content, flags=re.DOTALL
+              )
+
               with open('README.md', 'w') as f:
-                  f.write(updated_content)
+                  f.write(content)
 
           if __name__ == "__main__":
               update()
@@ -117,4 +163,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git diff --quiet && echo "No changes" || (git add README.md && git commit -m "chore: update contributions list" && git push)
+          git add README.md PROJECTS.md
+          git diff --quiet --staged && echo "No changes" || (git commit -m "chore: update project lists and README top 5" && git push)

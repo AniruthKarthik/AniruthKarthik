@@ -6,6 +6,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 
 ## Selected Projects
 
+<!-- SELECTED:START -->
 | Project              | Description                                                                                                                                                     |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [**llm-orchestrator**](https://github.com/AniruthKarthik/llm-orchestrator) | Multi-provider LLM orchestration engine for autonomous workflows, model routing, memory management, and agent execution.                                        |
@@ -13,9 +14,9 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | [**stocksim**](https://github.com/AniruthKarthik/stocksim)         | High-fidelity investment simulator that replays historical markets, enables portfolio experimentation, and supports strategy evaluation without financial risk. |
 | [**qrtunnel**](https://github.com/AniruthKarthik/qrtunnel)         | QR-based file sharing platform with smart LAN discovery, tunnel routing, and zero-login transfers.                                                              |
 | [**nets**](https://github.com/AniruthKarthik/nets)             | High-performance puzzle engine with a C++17 computational core and JavaFX frontend, featuring an AI visualizer for real-time search algorithm tracing.          |
-| [**gramfix**](https://github.com/AniruthKarthik/gramfix)          | Linux-wide grammar correction utility powered by cloud LLMs with automatic offline fallback support.                                                            |
-| [**stt**](https://github.com/AniruthKarthik/stt)              | Offline speech-to-text system built on whisper.cpp with low-latency transcription and direct text injection into any Linux application.                         |
-| [**vfi**](https://github.com/AniruthKarthik/vfi)              | Video frame interpolation system that generates intermediate frames to create smoother motion and higher frame-rate video playback.                             |
+
+[**View full list (8)**](PROJECTS.md#selected-projects)
+<!-- SELECTED:END -->
 
 ---
 
@@ -29,12 +30,8 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | [**gomods/athens**](https://github.com/gomods/athens)                           | Contributed to the enterprise-grade Go module proxy, implementing storage backend configurations and enhancing dependency download protocols.                           |
 | [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce)                     | No-code Model Context Protocol (MCP) gateway that automatically transforms OpenAPI and Swagger endpoints into MCP servers with built-in OAuth2 and real-time analytics. |
 | [**IDEA-Amrita/NodeShare**](https://github.com/IDEA-Amrita/NodeShare)           | Cross-platform peer-to-peer distributed computing daemon that enables remote workload execution using shared CPU, memory, and compute resources across multiple nodes. |
-| [**cin-and-cout/png-tree**](https://github.com/cin-and-cout/png-tree)           | Performance-focused C++ case study comparing vector-based image storage against a quadtree segment tree with lazy propagation for large-scale image manipulation.      |
-| [**openml/openml-python**](https://github.com/openml/openml-python)             | Official Python SDK for OpenML, a platform for sharing datasets, experiments, and machine learning benchmarks.                                                         |
-| [**collective/icalendar**](https://github.com/collective/icalendar)             | Core contributor and maintainer for the standard Python iCalendar (RFC 5545) parser/generator, focusing on modernization and CI/CD stability.                          |
-| [**cin-and-cout/Eco-Route Optimizer**](https://github.com/cin-and-cout/eco-route-optimizer) | Intelligent route optimization and simulation platform that minimizes carbon emissions using elevation, weather, traffic, and autonomous re-routing analysis.          |
-| [**SH-Nihil-Mukkesh-25/Stemly**](https://github.com/SH-Nihil-Mukkesh-25/Stemly) | Student-centric academic platform for project management, collaboration, and educational workflow organization.                                                        |
-| [**arhamgarg/DSA**](https://github.com/arhamgarg/DSA)                           | Comprehensive collection of data structures and algorithms implementations for learning, interviews, and competitive programming.                                      |
+
+[**View full list (11)**](PROJECTS.md#open-source--other-contributions)
 <!-- CONTRIBUTIONS:END -->
 
 ---
