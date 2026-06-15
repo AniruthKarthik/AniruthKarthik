@@ -9,11 +9,11 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 <!-- SELECTED:START -->
 | Project | Description |
 | --- | --- |
-| [**llm-orchestrator**](https://github.com/AniruthKarthik/llm-orchestrator) | Multi-provider LLM orchestration engine for autonomous workflows, model routing, memory management, and agent execution. |
-| [**codemap**](https://github.com/AniruthKarthik/codemap) | Interactive codebase visualization tool designed to help developers understand complex logic by mapping out the most relevant files and execution paths. |
-| [**stocksim**](https://github.com/AniruthKarthik/stocksim) | High-fidelity investment simulator that lets you rewind markets, test strategies, and learn investing using real historical data. |
-| [**paper-no-yapper**](https://github.com/AniruthKarthik/paper-no-yapper) | Academic paper analyzer designed to extract core insights and eliminate "yapping" in research papers. |
-| [**qrtunnel**](https://github.com/AniruthKarthik/qrtunnel) | Share or receive files instantly via QR code with smart LAN + tunnel routing, zero logins, and simple security. |
+| [**llm-orchestrator**](https://github.com/AniruthKarthik/llm-orchestrator) | Plug in as many Al APIs as you want and create autonomous workflows. |
+| [**codemap**](https://github.com/AniruthKarthik/codemap) | Codemap - Understand a codebase faster by reading the right files in the right order—and only the code that matters. |
+| [**stocksim**](https://github.com/AniruthKarthik/stocksim) | A high-fidelity investment simulator that lets you rewind markets, test strategies, and learn investing using real historical data — no real money, no risk |
+| [**paper-no-yapper**](https://github.com/AniruthKarthik/paper-no-yapper) | Academic paper analyzer... No more yapping with papers |
+| [**qrtunnel**](https://github.com/AniruthKarthik/qrtunnel) | qrtunnel — share or receive files instantly via QR code with smart LAN + tunnel routing, zero logins, and simple security |
 
 [**View full list (17)**](PROJECTS.md#all-personal-projects)
 <!-- SELECTED:END -->
@@ -25,13 +25,13 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 <!-- CONTRIBUTIONS:START -->
 | Repository | About |
 | --- | --- |
-| [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | Contributed to the internals of a version-controlled PostgreSQL database, focusing on type systems, PL/pgSQL compatibility, and core engine functionality. |
-| [**purpleidea/mgmt**](https://github.com/purpleidea/mgmt) | Contributed to the next-generation distributed configuration management engine, focusing on test automation for dependency update verification. |
-| [**gomods/athens**](https://github.com/gomods/athens) | Contributed to the enterprise-grade Go module proxy, implementing storage backend configurations and enhancing dependency download protocols. |
-| [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | No-code Model Context Protocol (MCP) gateway that automatically transforms OpenAPI and Swagger endpoints into MCP servers with built-in OAuth2 and real-time analytics. |
-| [**IDEA-Amrita/NodeShare**](https://github.com/IDEA-Amrita/NodeShare) | Cross-platform peer-to-peer distributed computing daemon that enables remote workload execution using shared CPU, memory, and compute resources across multiple nodes. |
+| [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | Format missing operator error correctly (fixes #2160) |
+| [**gomods/athens**](https://github.com/gomods/athens) | fix: add DB parameter to Redis Sentinel SingleFlight configuration (#2107) |
+| [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | Enforce minimum length for JWT secrets to improve security (#10) |
+| [**openml/openml-python**](https://github.com/openml/openml-python) | [MNT] register pytest marker `test_server` and change `production` to `production_server` |
+| [**collective/icalendar**](https://github.com/collective/icalendar) | chore: automate AI prompt recording in commits (#1320) |
 
-[**View full list (11)**](PROJECTS.md#all-open-source-contributions)
+[**View full list (7)**](PROJECTS.md#all-open-source--other-contributions)
 <!-- CONTRIBUTIONS:END -->
 
 ---
