@@ -25,7 +25,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 <!-- CONTRIBUTIONS:START -->
 | Repository | Description |
 | --- | --- |
-| [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | Version-controlled SQL database introducing Git-like branching, merging, and cloning capabilities directly into the PostgreSQL ecosystem. |
+| [**dolthub/doltgresql**](https://github.com/dolthub/doltgresql) | Version-controlled SQL database introducing Git-like branching, merging, and cloning capabilities directly into the PostgreSQL ecosystem. [#2833](https://github.com/dolthub/doltgresql/pull/2833) [#2832](https://github.com/dolthub/doltgresql/pull/2832)  |
 | [**purpleidea/mgmt**](https://github.com/purpleidea/mgmt) | Next-generation distributed configuration management engine built on a real-time, event-driven, parallel execution architecture. |
 | [**gomods/athens**](https://github.com/gomods/athens) | Highly available Go module proxy and datastore designed to provide immutable caching for external dependencies. |
 | [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | No-code Model Context Protocol (MCP) gateway engine that automates the transformation of standard OpenAPI endpoints into functional MCP servers. |
