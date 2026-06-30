@@ -31,6 +31,7 @@
 | [**gomods/athens**](https://github.com/gomods/athens) | Highly available Go module proxy and datastore designed to provide immutable caching for external dependencies. |
 | [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | No-code Model Context Protocol (MCP) gateway engine that automates the transformation of standard OpenAPI endpoints into functional MCP servers. |
 | [**IDEA-Amrita/NodeShare**](https://github.com/IDEA-Amrita/NodeShare) | Cross-platform peer-to-peer distributed computing daemon architected for remote workload execution via shared CPU and memory. |
+| [**cin-and-cout/cognee**](https://github.com/cin-and-cout/cognee) | Real-time claim consistency tracking platform built on FastAPI and Cognee's temporal graph memory to flag logical drift in public statements. |
 | [**cin-and-cout/png-tree**](https://github.com/cin-and-cout/png-tree) | C++ performance case study evaluating vector-based pixel storage against advanced quadtree SegmentTree implementations with lazy propagation. |
 | [**openml/openml-python**](https://github.com/openml/openml-python) | Official Python SDK for the OpenML platform, enabling standardized interaction with machine learning datasets and benchmark environments. |
 | [**collective/icalendar**](https://github.com/collective/icalendar) | Robust Python parsing and generation library for RFC 5545 compliant iCalendar specifications. |

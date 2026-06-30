@@ -4,7 +4,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 
 ---
 
-## Selected Projects
+## Selected Personal Projects
 
 <!-- SELECTED:START -->
 | Project | Description |
@@ -31,7 +31,7 @@ Building AI infrastructure, distributed systems, and Linux-native developer tool
 | [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | No-code Model Context Protocol (MCP) gateway engine that automates the transformation of standard OpenAPI endpoints into functional MCP servers. |
 | [**IDEA-Amrita/NodeShare**](https://github.com/IDEA-Amrita/NodeShare) | Cross-platform peer-to-peer distributed computing daemon architected for remote workload execution via shared CPU and memory. |
 
-[**View full list (11)**](PROJECTS.md#all-open-source--other-contributions)
+[**View full list (12)**](PROJECTS.md#all-open-source--other-contributions)
 <!-- CONTRIBUTIONS:END -->
 
 ---
