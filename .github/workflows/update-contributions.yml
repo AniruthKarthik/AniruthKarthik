@@ -64,6 +64,14 @@ jobs:
               if not os.path.exists('README.md'):
                   return
 
+              TEAM_PROJECTS = {
+                  'nets',
+                  'Campus_Navigation_System',
+                  'IDEA-Amrita/NodeShare',
+                  'cin-and-cout/cognee',
+                  'cin-and-cout/eco-route-optimizer'
+              }
+
               # Complexity mapping (Manual overrides)
               COMPLEXITY_MAP = {
                   # Own Projects
@@ -108,7 +116,7 @@ jobs:
                   'qrtunnel': 'Cross-platform reverse-tunneling utility enabling instantaneous file transfers via QR codes over NAT-traversed connections and local LAN.',
                   'hyperparameter-analyzer': 'Command-line interface utility for evaluating and optimizing machine learning model hyperparameters in image segmentation tasks.',
                   'gramfix': 'System-wide grammar correction utility utilizing a hybrid architecture of ultra-fast cloud-based LLM APIs and offline LanguageTool fallbacks.',
-                  'Campus_Navigation_System': 'Pathfinding visualizer utilizing Dijkstra\\'s Algorithm within a Tkinter interface for efficient route calculation across customizable map layouts.',
+                  'Campus_Navigation_System': 'Pathfinding visualizer utilizing Dijkstra\'s Algorithm within a Tkinter interface for efficient route calculation across customizable map layouts.',
                   'paper-no-yapper': 'Automated research paper analysis system employing ontology-based term matching and fuzzy detection to extract core domains and methodologies.',
                   'No_Time_To_Die': 'C++ survival game built on Raylib featuring dynamic time mechanics where movement natively accelerates the game loop.',
                   'esphost': 'Experimental IoT framework focused on ESP8266 and ESP32 hosting communication protocols.',
@@ -116,11 +124,12 @@ jobs:
                   'nvim-config': 'Personalized Neovim environment heavily optimized via NvChad for enhanced developer ergonomics.',
                   'project-sandbox': 'A dedicated repository serving as an archive for technical explorations, discontinued prototypes, and specific architectural experiments.',
                   'proof-i-code': 'Automated activity tracker designed to maintain continuous integration logs and developer proof-of-work.',
-                  'dolthub/doltgresql': 'Version-controlled SQL database introducing Git-like branching, merging, and cloning capabilities directly into the PostgreSQL ecosystem.',
+                  'dolthub/doltgresql': 'Version-controlled SQL database introducing Git-like branching, merging, and cloning capabilities directly into the PostgreSQL ecosystem. [#2833](https://github.com/dolthub/doltgresql/pull/2833) [#2832](https://github.com/dolthub/doltgresql/pull/2832)',
                   'purpleidea/mgmt': 'Next-generation distributed configuration management engine built on a real-time, event-driven, parallel execution architecture.',
                   'gomods/athens': 'Highly available Go module proxy and datastore designed to provide immutable caching for external dependencies.',
                   'hasmcp/hasmcp-ce': 'No-code Model Context Protocol (MCP) gateway engine that automates the transformation of standard OpenAPI endpoints into functional MCP servers.',
                   'IDEA-Amrita/NodeShare': 'Cross-platform peer-to-peer distributed computing daemon architected for remote workload execution via shared CPU and memory.',
+                  'cin-and-cout/cognee': 'Real-time claim consistency tracking platform built on FastAPI and Cognee\'s temporal graph memory to flag logical drift in public statements.',
                   'cin-and-cout/png-tree': 'C++ performance case study evaluating vector-based pixel storage against advanced quadtree SegmentTree implementations with lazy propagation.',
                   'openml/openml-python': 'Official Python SDK for the OpenML platform, enabling standardized interaction with machine learning datasets and benchmark environments.',
                   'collective/icalendar': 'Robust Python parsing and generation library for RFC 5545 compliant iCalendar specifications.',
@@ -147,6 +156,8 @@ jobs:
               repos_data = fetch_github(f"https://api.github.com/users/{user}/repos?per_page=100&sort=updated", token)
               own_projects = {}
               own_metadata = {}
+              team_projects = {}
+              team_metadata = {}
               if repos_data:
                   for repo in repos_data:
                       if repo['fork'] or repo['name'] == user:
@@ -154,8 +165,13 @@ jobs:
                       name = repo['name']
                       desc = DESCRIPTION_MAP.get(name) or repo['description'] or "No description provided."
                       url = repo['html_url']
-                      own_projects[name] = f"| [**{name}**]({url}) | {desc} |"
-                      own_metadata[name] = {'description': desc, 'language': repo['language']}
+                      line = f"| [**{name}**]({url}) | {desc} |"
+                      if name in TEAM_PROJECTS:
+                          team_projects[name] = line
+                          team_metadata[name] = {'description': desc, 'language': repo['language']}
+                      else:
+                          own_projects[name] = line
+                          own_metadata[name] = {'description': desc, 'language': repo['language']}
 
               # 2. Fetch ALL External OS Contributions
               prs_data = fetch_github(f"https://api.github.com/search/issues?q=type:pr+author:{user}+is:merged+-user:{user}+-repo:firstcontributions/first-contributions&per_page=100", token)
@@ -190,24 +206,34 @@ jobs:
                   if repo_info:
                       desc = DESCRIPTION_MAP.get(repo_name) or repo_info.get('description') or "No description provided."
                       link = repo_info.get('html_url')
-                      contrib_projects[repo_name] = f"| [**{repo_name}**]({link}) | {desc} |"
-                      contrib_metadata[repo_name] = {'description': desc, 'language': repo_info.get('language', '')}
+                      line = f"| [**{repo_name}**]({link}) | {desc} |"
+                      metadata = {'description': desc, 'language': repo_info.get('language', '')}
                   else:
                       desc = DESCRIPTION_MAP.get(repo_name) or "No description provided."
                       link = f"https://github.com/{repo_name}"
-                      contrib_projects[repo_name] = f"| [**{repo_name}**]({link}) | {desc} |"
-                      contrib_metadata[repo_name] = {'description': desc, 'language': ''}
+                      line = f"| [**{repo_name}**]({link}) | {desc} |"
+                      metadata = {'description': desc, 'language': ''}
+
+                  if repo_name in TEAM_PROJECTS:
+                      team_projects[repo_name] = line
+                      team_metadata[repo_name] = metadata
+                  else:
+                      contrib_projects[repo_name] = line
+                      contrib_metadata[repo_name] = metadata
                   time.sleep(0.1) # Respect rate limits
 
               # 3. Sort lists
               sorted_own = sorted(own_projects.keys(), key=lambda n: sort_key(n, own_metadata.get(n)))
+              sorted_team = sorted(team_projects.keys(), key=lambda n: sort_key(n, team_metadata.get(n)))
               sorted_contribs = sorted(contrib_projects.keys(), key=lambda n: sort_key(n, contrib_metadata.get(n)))
 
               # 4. Generate PROJECTS.md
               projects_content = f"# Full Project List\n\n"
               projects_content += "## All Personal Projects\n\n| Project | Description |\n| --- | --- |\n"
               projects_content += "\n".join(own_projects[name] for name in sorted_own) + "\n\n"
-              projects_content += "## All Open Source / Other Contributions\n\n| Repository | Description |\n| --- | --- |\n"
+              projects_content += "## All Team Projects\n\n| Project | Description |\n| --- | --- |\n"
+              projects_content += "\n".join(team_projects[name] for name in sorted_team) + "\n\n"
+              projects_content += "## All Open Source Contributions\n\n| Repository | Description |\n| --- | --- |\n"
               projects_content += "\n".join(contrib_projects[name] for name in sorted_contribs) + "\n"
               
               with open('PROJECTS.md', 'w') as f:
@@ -233,10 +259,17 @@ jobs:
               )
 
               readme_content = update_block(
+                  readme_content, '<!-- GROUP:START -->', '<!-- GROUP:END -->',
+                  team_projects, sorted_team,
+                  "| Project | Description |\n| --- | --- |",
+                  "PROJECTS.md#all-team-projects"
+              )
+
+              readme_content = update_block(
                   readme_content, '<!-- CONTRIBUTIONS:START -->', '<!-- CONTRIBUTIONS:END -->',
                   contrib_projects, sorted_contribs, 
                   "| Repository | Description |\n| --- | --- |", 
-                  "PROJECTS.md#all-open-source--other-contributions"
+                  "PROJECTS.md#all-open-source-contributions"
               )
 
               with open('README.md', 'w') as f:
