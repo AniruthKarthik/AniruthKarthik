@@ -69,7 +69,8 @@ jobs:
                   'Campus_Navigation_System',
                   'IDEA-Amrita/NodeShare',
                   'cin-and-cout/cognee',
-                  'cin-and-cout/eco-route-optimizer'
+                  'cin-and-cout/eco-route-optimizer',
+                  'cin-and-cout/png-tree'
               }
 
               # Complexity mapping (Manual overrides)

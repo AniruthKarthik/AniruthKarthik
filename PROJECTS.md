@@ -27,6 +27,7 @@
 | [**nets**](https://github.com/AniruthKarthik/nets) | Hybrid puzzle architecture integrating a JavaFX frontend with a high-performance C++ backend to implement graph theory and minimum spanning tree mechanics. |
 | [**IDEA-Amrita/NodeShare**](https://github.com/IDEA-Amrita/NodeShare) | Cross-platform peer-to-peer distributed computing daemon architected for remote workload execution via shared CPU and memory. |
 | [**cin-and-cout/cognee**](https://github.com/cin-and-cout/cognee) | Real-time claim consistency tracking platform built on FastAPI and Cognee's temporal graph memory to flag logical drift in public statements. |
+| [**cin-and-cout/png-tree**](https://github.com/cin-and-cout/png-tree) | C++ performance case study evaluating vector-based pixel storage against advanced quadtree SegmentTree implementations with lazy propagation. |
 | [**Campus_Navigation_System**](https://github.com/AniruthKarthik/Campus_Navigation_System) | Pathfinding visualizer utilizing Dijkstra's Algorithm within a Tkinter interface for efficient route calculation across customizable map layouts. |
 | [**cin-and-cout/eco-route-optimizer**](https://github.com/cin-and-cout/eco-route-optimizer) | Intelligent routing platform that calculates navigation paths by analyzing elevation gradients and traffic to minimize carbon emissions. |
 
@@ -38,7 +39,6 @@
 | [**purpleidea/mgmt**](https://github.com/purpleidea/mgmt) | Next-generation distributed configuration management engine built on a real-time, event-driven, parallel execution architecture. |
 | [**gomods/athens**](https://github.com/gomods/athens) | Highly available Go module proxy and datastore designed to provide immutable caching for external dependencies. |
 | [**hasmcp/hasmcp-ce**](https://github.com/hasmcp/hasmcp-ce) | No-code Model Context Protocol (MCP) gateway engine that automates the transformation of standard OpenAPI endpoints into functional MCP servers. |
-| [**cin-and-cout/png-tree**](https://github.com/cin-and-cout/png-tree) | C++ performance case study evaluating vector-based pixel storage against advanced quadtree SegmentTree implementations with lazy propagation. |
 | [**openml/openml-python**](https://github.com/openml/openml-python) | Official Python SDK for the OpenML platform, enabling standardized interaction with machine learning datasets and benchmark environments. |
 | [**collective/icalendar**](https://github.com/collective/icalendar) | Robust Python parsing and generation library for RFC 5545 compliant iCalendar specifications. |
 | [**SH-Nihil-Mukkesh-25/Stemly**](https://github.com/SH-Nihil-Mukkesh-25/Stemly) | AI-powered STEM platform utilizing FastAPI and LangChain to transform static diagrams into interactive simulations. |
