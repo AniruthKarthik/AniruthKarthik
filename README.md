@@ -2,9 +2,11 @@
 
 # Aniruth Karthik
 
-Computer Science student with hands-on experience in Go, C++, Python, TypeScript, and distributed systems. Skilled in architecting backend pipelines, building AI infrastructure, and engineering low-latency simulation engines and developer tooling. Exposure to reinforcement learning, graph neural networks, static binary analysis, and event-driven microservices. Active open-source contributor with code merged in projects like Excalidraw and DoltgreSQL. Strong interest in Systems Programming, AI Infrastructure, Distributed Systems, and High-Performance Computing.
+Most of my projects start with a random thought: "Wouldn't it be cool if I built this?"
 
-![](https://skillicons.dev/icons?i=go,cpp,py,ts,c,java,postgres,redis,docker,linux,git,react,nextjs,pytorch&theme=dark)
+I mostly work with Go, Python, and C++, and sometimes Java. I've worked on projects involving backend pipelines, AI infrastructure, low-latency simulation engines, neural networks, workflow orchestration, and microservices. I also contribute to open source whenever I find time. AI and backend systems are what I spend most of my time on without getting bored.
+
+![](https://skillicons.dev/icons?i=go,cpp,py,java,postgres,docker,linux,git,react,nodejs,pytorch,arch,neovim,cmake)
 
 <p align="center">
   <a href="https://egorthinks.github.io/git-bonsai/?u=AniruthKarthik">
