@@ -1,0 +1,67 @@
+# Draws a pair of pixel-art koi from public GitHub activity and composites them in the same pool
+name: Koi
+
+on:
+  schedule:
+    # Just after midnight UTC, so the koi shows the day that just ended.
+    - cron: "20 0 * * *"
+  workflow_dispatch:
+  push:
+    paths: [.github/workflows/koi.yml]
+
+permissions:
+  contents: write
+
+concurrency: koi
+
+jobs:
+  koi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Draw White Koi
+        uses: yalongwastaken/git-koi@v1
+        with:
+          body: white
+          output-dir: koi/white
+
+      - name: Draw Black Koi
+        uses: yalongwastaken/git-koi@v1
+        with:
+          body: black
+          output-dir: koi/black
+
+      - name: Organize & Composite Koi Pool
+        run: |
+          cp koi/white/koi.gif koi/koi.gif
+          cp koi/black/koi.gif koi/koi-black.gif
+          mkdir -p /tmp/w /tmp/b /tmp/out
+          magick koi/koi.gif -coalesce /tmp/w/f_%03d.png
+          magick koi/koi-black.gif -coalesce /tmp/b/f_%03d.png
+          python3 - << 'PYEOF'
+          import subprocess
+          for i in range(120):
+              subprocess.run(['magick', f'/tmp/b/f_{i:03d}.png', '-flop', f'/tmp/b/flop_{i:03d}.png'], check=True)
+          for i in range(120):
+              w = f'/tmp/w/f_{i:03d}.png'
+              b = f'/tmp/b/flop_{(i + 30) % 120:03d}.png'
+              out = f'/tmp/out/c_{i:03d}.png'
+              top, bot = (w, b) if i < 60 else (b, w)
+              subprocess.run(['magick', 'composite', '-compose', 'over', top, bot, out], check=True)
+          PYEOF
+          magick -delay 6.67 -dispose Background /tmp/out/c_*.png -layers Optimize koi/pond_crossing.gif
+          rm -rf /tmp/w /tmp/b /tmp/out koi/white koi/black
+
+      - name: Commit koi if changed
+        shell: bash
+        run: |
+          git add koi/koi.gif koi/koi-black.gif koi/pond_crossing.gif
+          if git diff --cached --quiet; then
+            echo "The koi are unchanged; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --quiet --message "koi: draw the day's koi pair"
+          git push --quiet
