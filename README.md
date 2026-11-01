@@ -14,7 +14,7 @@ I mostly work with Go, Python, and C++, and sometimes Java. I've worked on proje
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://github.com/yalongwastaken/git-koi">
-    <img src="koi/pond_crossing.gif" width="340" align="bottom" alt="Two koi fish swimming in the pond" />
+    <img src="koi/pond_crossing.gif" width="300" align="bottom" alt="Two koi fish swimming in the pond" />
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://egorthinks.github.io/git-bonsai/?u=AniruthKarthik">

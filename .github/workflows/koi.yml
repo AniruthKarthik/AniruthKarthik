@@ -20,11 +20,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y imagemagick
+          if ! command -v magick &> /dev/null; then
+            sudo ln -sf /usr/bin/convert /usr/bin/magick
+          fi
+
       - name: Draw White Koi
         uses: yalongwastaken/git-koi@v1
         with:
           body: white
           output-dir: koi/white
+
+      - name: Clean temp git-koi cache
+        run: rm -rf "$RUNNER_TEMP/git-koi"
 
       - name: Draw Black Koi
         uses: yalongwastaken/git-koi@v1
@@ -32,32 +43,34 @@ jobs:
           body: black
           output-dir: koi/black
 
-      - name: Organize & Composite Koi Pool
+      - name: Organize & Composite Koi Pool (512x420)
         run: |
           cp koi/white/koi.gif koi/koi.gif
           cp koi/black/koi.gif koi/koi-black.gif
-          mkdir -p /tmp/w /tmp/b /tmp/out
+          mkdir -p /tmp/w /tmp/b /tmp/b_flop /tmp/out
           magick koi/koi.gif -coalesce /tmp/w/f_%03d.png
           magick koi/koi-black.gif -coalesce /tmp/b/f_%03d.png
           python3 - << 'PYEOF'
           import subprocess
           for i in range(120):
-              subprocess.run(['magick', f'/tmp/b/f_{i:03d}.png', '-flop', f'/tmp/b/flop_{i:03d}.png'], check=True)
+              subprocess.run(['magick', f'/tmp/b/f_{i:03d}.png', '-flop', f'/tmp/b_flop/f_{i:03d}.png'], check=True)
           for i in range(120):
-              w = f'/tmp/w/f_{i:03d}.png'
-              b = f'/tmp/b/flop_{(i + 30) % 120:03d}.png'
-              out = f'/tmp/out/c_{i:03d}.png'
+              subprocess.run(['magick', f'/tmp/w/f_{i:03d}.png', '-resize', '420x420', f'/tmp/w/r_{i:03d}.png'], check=True)
+              subprocess.run(['magick', f'/tmp/b_flop/f_{i:03d}.png', '-resize', '420x420', f'/tmp/b_flop/r_{i:03d}.png'], check=True)
+          for i in range(120):
+              w = f'/tmp/w/r_{i:03d}.png'
+              b = f'/tmp/b_flop/r_{(i + 30) % 120:03d}.png'
               first, second = (w, b) if i < 60 else (b, w)
               cmd = [
-                  'magick', '-size', '512x600', 'xc:none',
-                  first, '-geometry', '+0+0', '-composite',
-                  second, '-geometry', '+0+0', '-composite',
-                  out
+                  'magick', '-size', '512x420', 'xc:none',
+                  first, '-geometry', '+46+0', '-composite',
+                  second, '-geometry', '+46+0', '-composite',
+                  f'/tmp/out/c_{i:03d}.png'
               ]
               subprocess.run(cmd, check=True)
           PYEOF
           magick -delay 6.67 -dispose Background /tmp/out/c_*.png -layers Optimize koi/pond_crossing.gif
-          rm -rf /tmp/w /tmp/b /tmp/out koi/white koi/black
+          rm -rf /tmp/w /tmp/b /tmp/b_flop /tmp/out koi/white koi/black
 
       - name: Commit koi if changed
         shell: bash

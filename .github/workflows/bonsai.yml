@@ -21,11 +21,21 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y imagemagick
+          if ! command -v magick &> /dev/null; then
+            sudo ln -sf /usr/bin/convert /usr/bin/magick
+          fi
+
       - uses: egorthinks/git-bonsai@v1
         with:
           user: AniruthKarthik
           output-dir: bonsai
           commit: 'false'
+
       - name: Ground bonsai to bottom & generate mirrored right bonsai
         run: |
           mkdir -p /tmp/b_orig /tmp/b_grounded
