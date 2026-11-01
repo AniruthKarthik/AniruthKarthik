@@ -47,8 +47,14 @@ jobs:
               w = f'/tmp/w/f_{i:03d}.png'
               b = f'/tmp/b/flop_{(i + 30) % 120:03d}.png'
               out = f'/tmp/out/c_{i:03d}.png'
-              top, bot = (w, b) if i < 60 else (b, w)
-              subprocess.run(['magick', 'composite', '-compose', 'over', top, bot, out], check=True)
+              first, second = (w, b) if i < 60 else (b, w)
+              cmd = [
+                  'magick', '-size', '512x600', 'xc:none',
+                  first, '-geometry', '+0+0', '-composite',
+                  second, '-geometry', '+0+0', '-composite',
+                  out
+              ]
+              subprocess.run(cmd, check=True)
           PYEOF
           magick -delay 6.67 -dispose Background /tmp/out/c_*.png -layers Optimize koi/pond_crossing.gif
           rm -rf /tmp/w /tmp/b /tmp/out koi/white koi/black

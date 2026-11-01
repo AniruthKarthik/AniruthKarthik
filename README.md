@@ -7,8 +7,16 @@ Computer Science student with hands-on experience in Go, C++, Python, TypeScript
 ![](https://skillicons.dev/icons?i=go,cpp,py,ts,c,java,postgres,redis,docker,linux,git,react,nextjs,pytorch&theme=dark)
 
 <p align="center">
+  <a href="https://egorthinks.github.io/git-bonsai/?u=AniruthKarthik">
+    <img src="bonsai/bonsai.gif" width="180" align="bottom" alt="Left Bonsai swaying in the wind" />
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://github.com/yalongwastaken/git-koi">
-    <img src="koi/pond_crossing.gif" width="380" alt="Two koi fish swimming and crossing paths in the pond" />
+    <img src="koi/pond_crossing.gif" width="340" align="bottom" alt="Two koi fish swimming in the pond" />
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://egorthinks.github.io/git-bonsai/?u=AniruthKarthik">
+    <img src="bonsai/bonsai-right.gif" width="180" align="bottom" alt="Right Bonsai swaying in the wind" />
   </a>
 </p>
 
