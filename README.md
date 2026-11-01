@@ -8,7 +8,7 @@ Computer Science student with hands-on experience in Go, C++, Python, TypeScript
 
 <p align="center">
   <a href="https://github.com/yalongwastaken/git-koi">
-    <img src="koi/pond_meander.gif" width="380" alt="Two koi fish swimming in organic meandering directions in the pond" />
+    <img src="koi/pond_crossing.gif" width="380" alt="Two koi fish swimming and crossing paths in the pond" />
   </a>
 </p>
 
