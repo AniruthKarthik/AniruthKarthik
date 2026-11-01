@@ -21,38 +21,37 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-
       - name: Install ImageMagick
         run: |
-          sudo apt-get update -y
+          sudo apt-get update
           sudo apt-get install -y imagemagick
-          if ! command -v magick &> /dev/null; then
-            sudo ln -sf /usr/bin/convert /usr/bin/magick
-          fi
-
       - uses: egorthinks/git-bonsai@v1
         with:
           user: AniruthKarthik
           output-dir: bonsai
           commit: 'false'
-
       - name: Ground bonsai to bottom & generate mirrored right bonsai
         run: |
+          CMD="magick"
+          if ! command -v magick &>/dev/null; then
+            CMD="convert"
+          fi
           mkdir -p /tmp/b_orig /tmp/b_grounded
-          magick bonsai/bonsai.gif -coalesce /tmp/b_orig/f_%03d.png
+          $CMD bonsai/bonsai.gif -coalesce /tmp/b_orig/f_%03d.png
           python3 - << 'PYEOF'
-          import subprocess, glob
+          import subprocess, glob, shutil
+          cmd = "magick" if shutil.which("magick") else "convert"
           frames = sorted(glob.glob('/tmp/b_orig/f_*.png'))
           for i, f in enumerate(frames):
-              cmd = [
-                  'magick', '-size', '137x259', 'xc:none',
+              c = [
+                  cmd, '-size', '137x259', 'xc:none',
                   f, '-geometry', '+0+135', '-composite',
                   f'/tmp/b_grounded/f_{i:03d}.png'
               ]
-              subprocess.run(cmd, check=True)
+              subprocess.run(c, check=True)
           PYEOF
-          magick -delay 8 /tmp/b_grounded/f_*.png bonsai/bonsai.gif
-          magick bonsai/bonsai.gif -flop bonsai/bonsai-right.gif
+          $CMD -delay 8 /tmp/b_grounded/f_*.png bonsai/bonsai.gif
+          $CMD bonsai/bonsai.gif -flop bonsai/bonsai-right.gif
           rm -rf /tmp/b_orig /tmp/b_grounded
           git config user.name "git-bonsai[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -62,4 +61,5 @@ jobs:
             exit 0
           fi
           git commit -m "chore: tend the grounded bonsai pair 🌳"
+          git pull --rebase origin "${GITHUB_REF_NAME:-git-koi}" || true
           git push
