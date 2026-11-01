@@ -1,4 +1,4 @@
-# Draws a pair of pixel-art koi from public GitHub activity and composites them in the same pool
+# Draws a pair of pixel-art koi from public GitHub activity and composites them in the pond
 name: Koi
 
 on:
@@ -12,7 +12,9 @@ on:
 permissions:
   contents: write
 
-concurrency: koi
+concurrency:
+  group: koi-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   koi:
@@ -20,67 +22,107 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install ImageMagick
+      - name: Install dependencies
         run: |
-          sudo apt-get update -y
+          sudo apt-get update
           sudo apt-get install -y imagemagick
-          if ! command -v magick &> /dev/null; then
-            sudo ln -sf /usr/bin/convert /usr/bin/magick
-          fi
 
-      - name: Draw White Koi
+      - name: Setup git-koi & Draw White Koi
         uses: yalongwastaken/git-koi@v1
         with:
           body: white
           output-dir: koi/white
 
-      - name: Clean temp git-koi cache
-        run: rm -rf "$RUNNER_TEMP/git-koi"
+      - name: Draw Black Koi via CLI
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git-koi collect ${{ github.repository_owner }} --output /tmp/snapshot.json
+          git-koi render /tmp/snapshot.json --output-dir koi/black --body black
 
-      - name: Draw Black Koi
-        uses: yalongwastaken/git-koi@v1
-        with:
-          body: black
-          output-dir: koi/black
-
-      - name: Organize & Composite Koi Pool (512x420)
+      - name: Organize & Composite Koi Pool with Enlarged Fish
         run: |
           cp koi/white/koi.gif koi/koi.gif
           cp koi/black/koi.gif koi/koi-black.gif
           mkdir -p /tmp/w /tmp/b /tmp/b_flop /tmp/out
-          magick koi/koi.gif -coalesce /tmp/w/f_%03d.png
-          magick koi/koi-black.gif -coalesce /tmp/b/f_%03d.png
+          
+          # Detect ImageMagick command (magick on IM7, convert on IM6)
+          CMD="magick"
+          if ! command -v magick &>/dev/null; then
+            CMD="convert"
+          fi
+          
+          $CMD koi/koi.gif -coalesce /tmp/w/f_%03d.png
+          $CMD koi/koi-black.gif -coalesce /tmp/b/f_%03d.png
+          
           python3 - << 'PYEOF'
-          import subprocess
+          import os, subprocess, shutil
+          cmd = "magick" if shutil.which("magick") else "convert"
+          
           for i in range(120):
-              subprocess.run(['magick', f'/tmp/b/f_{i:03d}.png', '-flop', f'/tmp/b_flop/f_{i:03d}.png'], check=True)
+              subprocess.run([cmd, f'/tmp/b/f_{i:03d}.png', '-flop', f'/tmp/b_flop/f_{i:03d}.png'], check=True)
+          
+          bboxes_w = []
           for i in range(120):
-              subprocess.run(['magick', f'/tmp/w/f_{i:03d}.png', '-resize', '420x420', f'/tmp/w/r_{i:03d}.png'], check=True)
-              subprocess.run(['magick', f'/tmp/b_flop/f_{i:03d}.png', '-resize', '420x420', f'/tmp/b_flop/r_{i:03d}.png'], check=True)
+              res = subprocess.run([cmd, f'/tmp/w/f_{i:03d}.png', '-format', '%@', 'info:'], capture_output=True, text=True)
+              bboxes_w.append([int(p) for p in res.stdout.strip().replace('x', '+').split('+')])
+          
+          bboxes_b = []
           for i in range(120):
-              w = f'/tmp/w/r_{i:03d}.png'
-              b = f'/tmp/b_flop/r_{(i + 30) % 120:03d}.png'
-              first, second = (w, b) if i < 60 else (b, w)
-              cmd = [
-                  'magick', '-size', '512x420', 'xc:none',
-                  first, '-geometry', '+46+0', '-composite',
-                  second, '-geometry', '+46+0', '-composite',
-                  f'/tmp/out/c_{i:03d}.png'
+              res = subprocess.run([cmd, f'/tmp/b_flop/f_{i:03d}.png', '-format', '%@', 'info:'], capture_output=True, text=True)
+              bboxes_b.append([int(p) for p in res.stdout.strip().replace('x', '+').split('+')])
+          
+          scale = 1.22
+          for i in range(120):
+              w1, h1, x1, y1 = bboxes_w[i]
+              cx1 = x1 + w1 / 2
+              cy1 = y1 + h1 / 2
+              nw1 = round(w1 * scale)
+              nh1 = round(h1 * scale)
+              px1 = max(0, min(512 - nw1, round(cx1 - nw1 / 2)))
+              py1 = max(0, min(520 - nh1, round(cy1 - nh1 / 2)))
+              
+              j = (i + 30) % 120
+              w2, h2, x2, y2 = bboxes_b[j]
+              cx2 = x2 + w2 / 2
+              cy2 = y2 + h2 / 2
+              nw2 = round(w2 * scale)
+              nh2 = round(h2 * scale)
+              px2 = max(0, min(512 - nw2, round(cx2 - nw2 / 2)))
+              py2 = max(0, min(520 - nh2, round(cy2 - nh2 / 2)))
+              
+              f1 = f'/tmp/w/f_{i:03d}.png'
+              f2 = f'/tmp/b_flop/f_{j:03d}.png'
+              
+              layer1 = [
+                  '(', f1, '-crop', f'{w1}x{h1}+{x1}+{y1}', '+repage', '-sample', f'{nw1}x{nh1}!', ')',
+                  '-geometry', f'+{px1}+{py1}', '-composite'
               ]
-              subprocess.run(cmd, check=True)
+              layer2 = [
+                  '(', f2, '-crop', f'{w2}x{h2}+{x2}+{y2}', '+repage', '-sample', f'{nw2}x{nh2}!', ')',
+                  '-geometry', f'+{px2}+{py2}', '-composite'
+              ]
+              
+              first = layer1 if i < 60 else layer2
+              second = layer2 if i < 60 else layer1
+              
+              c = [cmd, '-size', '512x520', 'xc:none'] + first + second + [f'/tmp/out/f_{i:03d}.png']
+              subprocess.run(c, check=True)
           PYEOF
-          magick -delay 6.67 -dispose Background /tmp/out/c_*.png -layers Optimize koi/pond_crossing.gif
+          
+          $CMD -delay 6.67 -dispose Background /tmp/out/f_*.png -layers Optimize koi/pond_crossing.gif
           rm -rf /tmp/w /tmp/b /tmp/b_flop /tmp/out koi/white koi/black
 
       - name: Commit koi if changed
         shell: bash
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add koi/koi.gif koi/koi-black.gif koi/pond_crossing.gif
           if git diff --cached --quiet; then
             echo "The koi are unchanged; nothing to commit."
             exit 0
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit --quiet --message "koi: draw the day's koi pair"
-          git push --quiet
+          git commit --message "koi: draw the day's koi pair"
+          git pull --rebase origin "${GITHUB_REF_NAME:-git-koi}" || true
+          git push
