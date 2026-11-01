@@ -22,6 +22,6 @@ I mostly work with Go, Python, and C++, and sometimes Java. I've worked on proje
   </a>
 </p>
 
-[linkedin](https://www.linkedin.com/in/aniruthkarthik) · [github](https://github.com/AniruthKarthik) · [gmail](mailto:aniruthkarthik10@gmail.com)
+[linkedin](https://www.linkedin.com/in/aniruthkarthik) · [gmail](mailto:aniruthkarthik10@gmail.com)
 
 </div>
