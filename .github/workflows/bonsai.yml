@@ -25,25 +25,53 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y imagemagick
-      - uses: egorthinks/git-bonsai@v1
+      - name: Generate Maximized Bonsai Pair
         env:
-          INPUT_OUTPUT-DIR: bonsai
-        with:
-          user: AniruthKarthik
-          output-dir: bonsai
-          commit: 'false'
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git clone --depth 1 https://github.com/egorthinks/git-bonsai.git /tmp/git-bonsai-repo
+          node -e '
+          const data = require("/tmp/git-bonsai-repo/dist/src/data.js");
+          const index = require("/tmp/git-bonsai-repo/dist/src/index.js");
+          const fs = require("fs");
+
+          async function main() {
+              const token = process.env.GH_TOKEN;
+              const realMetrics = await data.fetchMetrics("AniruthKarthik", token);
+              
+              // Maximize metrics for peak evolutionary bonsai
+              const maxMetrics = {
+                  ...realMetrics,
+                  totalContributions: 50000,
+                  createdAt: new Date(Date.now() - 12 * 365.25 * 86400000).toISOString(),
+                  maxStreak: 365,
+                  currentStreak: 365,
+                  longestGapDays: 0,
+                  gapsOver60d: 0,
+                  repoCount: 25,
+                  burstiness: 0.2,
+                  weekendRatio: 0.25
+              };
+              
+              const out = index.generate(maxMetrics, { season: "auto" });
+              fs.mkdirSync("bonsai", { recursive: true });
+              fs.writeFileSync("bonsai/bonsai_raw.gif", out.gif);
+              fs.writeFileSync("bonsai/bonsai-growth.gif", out.growthGif);
+              fs.writeFileSync("bonsai/bonsai.png", out.png);
+              fs.writeFileSync("bonsai/bonsai.svg", out.svg);
+          }
+          main();
+          '
+          rm -rf /tmp/git-bonsai-repo
+
       - name: Ground bonsai to bottom & generate mirrored right bonsai
         run: |
           CMD="magick"
           if ! command -v magick &>/dev/null; then
             CMD="convert"
           fi
-          if [ -d output ] && [ -f output/bonsai.gif ]; then
-            mkdir -p bonsai
-            cp -r output/* bonsai/
-            rm -rf output
-          fi
-          $CMD bonsai/bonsai.gif -coalesce -background none -gravity South -extent 137x259 bonsai/bonsai.gif
+          $CMD bonsai/bonsai_raw.gif -coalesce -background none -gravity South -extent 189x259 bonsai/bonsai.gif
+          rm -f bonsai/bonsai_raw.gif
           $CMD bonsai/bonsai.gif -flop bonsai/bonsai-right.gif
           git config user.name "git-bonsai[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
