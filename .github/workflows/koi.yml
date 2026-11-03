@@ -27,25 +27,23 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y imagemagick
 
-      - name: Setup git-koi
+      - name: Setup git-koi & Draw White Koi
         uses: yalongwastaken/git-koi@v1
         with:
           body: white
-          output-dir: /tmp/ignore_init
+          output-dir: koi/white
 
-      - name: Maximize Snapshot & Draw Adult Koi Pair
+      - name: Draw Black Koi via CLI
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git-koi collect ${{ github.repository_owner }} --output /tmp/snapshot.json
-          # Maximize contributions to reach 100,000+ max growth threshold
-          jq '.contribution_history.days |= map(.contribution_count = 150)' /tmp/snapshot.json > /tmp/snapshot_max.json
-          git-koi render /tmp/snapshot_max.json --output-dir koi/white --body white
-          git-koi render /tmp/snapshot_max.json --output-dir koi/black --body black
+          git-koi render /tmp/snapshot.json --output-dir koi/black --body black
 
-      - name: Organize & Composite Koi Pool
+      - name: Organize & Composite Koi Pool with Enlarged Fish
         run: |
           cp koi/white/koi.gif koi/koi.gif
+          cp koi/white/koi.png koi/koi.png 2>/dev/null || true
           cp koi/black/koi.gif koi/koi-black.gif
           mkdir -p /tmp/w /tmp/b /tmp/b_flop /tmp/out
           
@@ -59,29 +57,57 @@ jobs:
           $CMD koi/koi-black.gif -coalesce /tmp/b/f_%03d.png
           
           python3 - << 'PYEOF'
-          import glob, subprocess, shutil
+          import os, subprocess, shutil
           cmd = "magick" if shutil.which("magick") else "convert"
           
-          w_frames = sorted(glob.glob('/tmp/w/f_*.png'))
-          b_frames = sorted(glob.glob('/tmp/b/f_*.png'))
-          n_frames = min(len(w_frames), len(b_frames))
-          
-          for i in range(n_frames):
+          for i in range(120):
               subprocess.run([cmd, f'/tmp/b/f_{i:03d}.png', '-flop', f'/tmp/b_flop/f_{i:03d}.png'], check=True)
           
-          offset = n_frames // 4
-          half = n_frames // 2
+          bboxes_w = []
+          for i in range(120):
+              res = subprocess.run([cmd, f'/tmp/w/f_{i:03d}.png', '-format', '%@', 'info:'], capture_output=True, text=True)
+              bboxes_w.append([int(p) for p in res.stdout.strip().replace('x', '+').split('+')])
           
-          for i in range(n_frames):
-              w = f'/tmp/w/f_{i:03d}.png'
-              b = f'/tmp/b_flop/f_{(i + offset) % n_frames:03d}.png'
-              first, second = (w, b) if i < half else (b, w)
-              c = [
-                  cmd, '-size', '512x520', 'xc:none',
-                  first, '-geometry', '+0+0', '-composite',
-                  second, '-geometry', '+0+0', '-composite',
-                  f'/tmp/out/f_{i:03d}.png'
+          bboxes_b = []
+          for i in range(120):
+              res = subprocess.run([cmd, f'/tmp/b_flop/f_{i:03d}.png', '-format', '%@', 'info:'], capture_output=True, text=True)
+              bboxes_b.append([int(p) for p in res.stdout.strip().replace('x', '+').split('+')])
+          
+          scale = 1.22
+          for i in range(120):
+              w1, h1, x1, y1 = bboxes_w[i]
+              cx1 = x1 + w1 / 2
+              cy1 = y1 + h1 / 2
+              nw1 = round(w1 * scale)
+              nh1 = round(h1 * scale)
+              px1 = max(0, min(512 - nw1, round(cx1 - nw1 / 2)))
+              py1 = max(0, min(520 - nh1, round(cy1 - nh1 / 2)))
+              
+              j = (i + 30) % 120
+              w2, h2, x2, y2 = bboxes_b[j]
+              cx2 = x2 + w2 / 2
+              cy2 = y2 + h2 / 2
+              nw2 = round(w2 * scale)
+              nh2 = round(h2 * scale)
+              px2 = max(0, min(512 - nw2, round(cx2 - nw2 / 2)))
+              py2 = max(0, min(520 - nh2, round(cy2 - nh2 / 2)))
+              
+              f1 = f'/tmp/w/f_{i:03d}.png'
+              f2 = f'/tmp/b_flop/f_{j:03d}.png'
+              
+              layer1 = [
+                  '(', f1, '-crop', f'{w1}x{h1}+{x1}+{y1}', '+repage', '-sample', f'{nw1}x{nh1}!', ')',
+                  '-geometry', f'+{px1}+{py1}', '-composite'
               ]
+              layer2 = [
+                  '(', f2, '-crop', f'{w2}x{h2}+{x2}+{y2}', '+repage', '-sample', f'{nw2}x{nh2}!', ')',
+                  '-geometry', f'+{px2}+{py2}', '-composite'
+              ]
+              
+              first = layer1 if i < 60 else layer2
+              second = layer2 if i < 60 else layer1
+              
+              c = [cmd, '-size', '512x520', 'xc:none'] + first + second + [f'/tmp/out/f_{i:03d}.png']
               subprocess.run(c, check=True)
           PYEOF
           
@@ -93,7 +119,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add koi/koi.gif koi/koi-black.gif koi/pond_crossing.gif
+          git add koi/koi.gif koi/koi-black.gif koi/koi.png koi/pond_crossing.gif
           if git diff --cached --quiet; then
             echo "The koi are unchanged; nothing to commit."
             exit 0
