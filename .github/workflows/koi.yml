@@ -27,18 +27,52 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y imagemagick
 
-      - name: Setup git-koi & Draw White Koi
+      - name: Setup git-koi
         uses: yalongwastaken/git-koi@v1
         with:
           body: white
-          output-dir: koi/white
+          output-dir: /tmp/ignore_init
 
-      - name: Draw Black Koi via CLI
+      - name: Draw Cruising Koi Pair via CLI
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git-koi collect ${{ github.repository_owner }} --output /tmp/snapshot.json
-          git-koi render /tmp/snapshot.json --output-dir koi/black --body black
+
+          # Ensure the fish always swim in graceful circular laps (Cruise behavior)
+          python3 - << 'PYEOF'
+          import json, datetime
+
+          with open('/tmp/snapshot.json') as f:
+              snap = json.load(f)
+
+          days = snap.get('contribution_history', {}).get('days', [])
+          day_map = {d['date']: d['contribution_count'] for d in days}
+
+          latest_date_str = snap.get('contribution_history', {}).get('observed_on')
+          latest_date = datetime.date.fromisoformat(latest_date_str) if latest_date_str else datetime.date.today()
+          monday = latest_date - datetime.timedelta(days=latest_date.weekday())
+          tuesday = monday + datetime.timedelta(days=1)
+
+          mon_str = monday.isoformat()
+          tue_str = tuesday.isoformat()
+
+          if mon_str not in day_map or day_map[mon_str] == 0:
+              day_map[mon_str] = 1
+
+          if tue_str not in day_map or day_map[tue_str] == 0:
+              day_map[tue_str] = 1
+
+          new_days = [{'date': d, 'contribution_count': day_map[d]} for d in sorted(day_map.keys())]
+          snap['contribution_history']['days'] = new_days
+          snap['contribution_history']['observed_on'] = tue_str
+
+          with open('/tmp/snapshot_cruise.json', 'w') as f:
+              json.dump(snap, f, indent=2)
+          PYEOF
+
+          git-koi render /tmp/snapshot_cruise.json --output-dir koi/white --body white
+          git-koi render /tmp/snapshot_cruise.json --output-dir koi/black --body black
 
       - name: Organize & Composite Koi Pool with Enlarged Fish
         run: |
@@ -57,24 +91,32 @@ jobs:
           $CMD koi/koi-black.gif -coalesce /tmp/b/f_%03d.png
           
           python3 - << 'PYEOF'
-          import os, subprocess, shutil
+          import glob, os, subprocess, shutil
           cmd = "magick" if shutil.which("magick") else "convert"
           
-          for i in range(120):
+          w_frames = sorted(glob.glob('/tmp/w/f_*.png'))
+          b_frames = sorted(glob.glob('/tmp/b/f_*.png'))
+          n_frames = min(len(w_frames), len(b_frames))
+          if n_frames == 0:
+              raise RuntimeError("No frames extracted from koi gifs")
+
+          for i in range(n_frames):
               subprocess.run([cmd, f'/tmp/b/f_{i:03d}.png', '-flop', f'/tmp/b_flop/f_{i:03d}.png'], check=True)
           
           bboxes_w = []
-          for i in range(120):
+          for i in range(n_frames):
               res = subprocess.run([cmd, f'/tmp/w/f_{i:03d}.png', '-format', '%@', 'info:'], capture_output=True, text=True)
               bboxes_w.append([int(p) for p in res.stdout.strip().replace('x', '+').split('+')])
           
           bboxes_b = []
-          for i in range(120):
+          for i in range(n_frames):
               res = subprocess.run([cmd, f'/tmp/b_flop/f_{i:03d}.png', '-format', '%@', 'info:'], capture_output=True, text=True)
               bboxes_b.append([int(p) for p in res.stdout.strip().replace('x', '+').split('+')])
           
           scale = 1.22
-          for i in range(120):
+          half = n_frames // 2
+          offset = n_frames // 4
+          for i in range(n_frames):
               w1, h1, x1, y1 = bboxes_w[i]
               cx1 = x1 + w1 / 2
               cy1 = y1 + h1 / 2
@@ -83,7 +125,7 @@ jobs:
               px1 = max(0, min(512 - nw1, round(cx1 - nw1 / 2)))
               py1 = max(0, min(520 - nh1, round(cy1 - nh1 / 2)))
               
-              j = (i + 30) % 120
+              j = (i + offset) % n_frames
               w2, h2, x2, y2 = bboxes_b[j]
               cx2 = x2 + w2 / 2
               cy2 = y2 + h2 / 2
@@ -104,8 +146,8 @@ jobs:
                   '-geometry', f'+{px2}+{py2}', '-composite'
               ]
               
-              first = layer1 if i < 60 else layer2
-              second = layer2 if i < 60 else layer1
+              first = layer1 if i < half else layer2
+              second = layer2 if i < half else layer1
               
               c = [cmd, '-size', '512x520', 'xc:none'] + first + second + [f'/tmp/out/f_{i:03d}.png']
               subprocess.run(c, check=True)
